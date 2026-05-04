@@ -1,0 +1,3185 @@
+{
+  "source": "Utregning Prebatch.xlsx",
+  "unit": "cl",
+  "defaultBottleSizeCl": 70,
+  "prebatches": [
+    {
+      "name": "Norum Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Lysholm Linie",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "ØX Bygg Vodka",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spricetip Cordial",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Norum Apple",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dilution",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1300,
+      "bottlesPerBatchAt70cl": 18.571428571428573
+    },
+    {
+      "name": "James Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Monkey Shoulder",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Inderøy Seabuckthorne",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Creme de cacao white",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon Timur Berry",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yarrow sirup",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 675,
+      "bottlesPerBatchAt70cl": 9.642857142857142
+    },
+    {
+      "name": "Nansen",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nansen Aquavit",
+          "clPerBatch": 405,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spinola ximenez",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Edel iseple cider",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "hogweed Sirup",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "water",
+          "clPerBatch": 204,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 884,
+      "bottlesPerBatchAt70cl": 12.628571428571428
+    },
+    {
+      "name": "Ingeborg Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michter Rye",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Bareksten Blueberry",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Løynd Plomme destilat",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin Blueberry",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Blueberry juice",
+          "clPerBatch": 30,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 680,
+      "bottlesPerBatchAt70cl": 9.714285714285714
+    },
+    {
+      "name": "Bleken Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nuet (Infused)",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Birdcherry Blossom",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 160,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 685,
+      "bottlesPerBatchAt70cl": 9.785714285714286
+    },
+    {
+      "name": "Mai Tai Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Plantation Xaymaca",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Clairin communal",
+          "clPerBatch": 26,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pierre Ferrand Dry Curacao",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Disaronno Amaretto",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 226,
+      "bottlesPerBatchAt70cl": 3.2285714285714286
+    },
+    {
+      "name": "A La luisiane Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michter Rye Whiskey",
+          "clPerBatch": 135,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "D.O.M Benedictine",
+          "clPerBatch": 45,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino",
+          "clPerBatch": 45,
+          "bottleSizeCl": 75,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 225,
+      "bottlesPerBatchAt70cl": 3.2142857142857144
+    },
+    {
+      "name": "Paper Plane Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michters Bourbon",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Apeol",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monetenegro Amaro",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 210,
+      "bottlesPerBatchAt70cl": 3
+    },
+    {
+      "name": "journey",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Lysholm Linie",
+          "clPerBatch": 240,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Clairin communal",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kopke white 10y",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "simple Sirup 1:1",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 560,
+      "bottlesPerBatchAt70cl": 8
+    },
+    {
+      "name": "Moonhsine",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Britannia Moonshine",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dandelion & Pine Cone",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 390,
+      "bottlesPerBatchAt70cl": 5.571428571428571
+    },
+    {
+      "name": "Espresso Martini Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Ketel One vodka",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kahlua",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Coffee",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 725,
+      "bottlesPerBatchAt70cl": 10.357142857142858
+    },
+    {
+      "name": "Blackbird Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "linie port cask",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Absente 55",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Chambord",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Galiano Vanilla",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 600,
+      "bottlesPerBatchAt70cl": 8.571428571428571
+    },
+    {
+      "name": "Yuzu Highball",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Yuzu Sake",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Ki No Bi Gin",
+          "clPerBatch": 45,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tanquray",
+          "clPerBatch": 55,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 300,
+      "bottlesPerBatchAt70cl": 4.285714285714286
+    },
+    {
+      "name": "Haymarket",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "lysholm nr 52",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "dumaine du moulin william pear",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 360,
+      "bottlesPerBatchAt70cl": 5.142857142857143
+    },
+    {
+      "name": "Poolside Daiquiri",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 58,
+      "ingredients": [
+        {
+          "name": "Plantation 3 Stars",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kalani Coconut Rum",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Bols Blue Curacao",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple syrup 1:1",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 350,
+      "bottlesPerBatchAt70cl": 5
+    },
+    {
+      "name": "Dirty Martini",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Tanquray",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "cicelio bianco",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Le tribute olive lemonade",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "water",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Olive brine",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1200,
+      "bottlesPerBatchAt70cl": 17.142857142857142
+    },
+    {
+      "name": "Shibuya Highball",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nikka days",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "suppay umeshu",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer verjus",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Sage sirup",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 750,
+      "bottlesPerBatchAt70cl": 10.714285714285714
+    },
+    {
+      "name": "In a Nuttshell",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Jameson Black Barrel",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "White cacao",
+          "clPerBatch": 125,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "cocchi torino",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spinola Himenez",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Svarte walnøtter bitter",
+          "clPerBatch": 5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 930,
+      "bottlesPerBatchAt70cl": 13.285714285714286
+    },
+    {
+      "name": "1972 Sazerac",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Park Cognac 1972",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Michters rye 10",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Absenthe 55",
+          "clPerBatch": 5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        },
+        {
+          "name": "Bitter",
+          "clPerBatch": 4.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        }
+      ],
+      "totalClPerBatch": 309.5,
+      "bottlesPerBatchAt70cl": 4.421428571428572
+    },
+    {
+      "name": "Garden",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "lyshom no 52",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "cocchi americano bianco",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 360,
+      "bottlesPerBatchAt70cl": 5.142857142857143
+    },
+    {
+      "name": "Lady Calabria",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 70,
+      "ingredients": [
+        {
+          "name": "The Botanist gin",
+          "clPerBatch": 280,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Quaglia bergamotto",
+          "clPerBatch": 35,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Ketel one",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 335,
+      "bottlesPerBatchAt70cl": 4.785714285714286
+    },
+    {
+      "name": "Cecilie Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Fru catarina lysholm",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Muyu Vetiver Gris",
+          "clPerBatch": 35,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Citric Rhubarb",
+          "clPerBatch": 700,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Inderøy Angelica destilliate",
+          "clPerBatch": 35,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "roawnberry sirup",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 350,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1870,
+      "bottlesPerBatchAt70cl": 26.714285714285715
+    },
+    {
+      "name": "Wedel Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Remy Martin 1738",
+          "clPerBatch": 310,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Rouge",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Rasberry Coulis",
+          "clPerBatch": 280,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lemon",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Whole (not half) Milk",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1200,
+      "bottlesPerBatchAt70cl": 17.142857142857142
+    },
+    {
+      "name": "Stensrud Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Beefeater Crown Jewel(tanq 10)",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lillet Blanc",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon Vetiver",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Grapefruit Oleo",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Orange Oleo",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pineapple Mayweed Sirup",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 110,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 835,
+      "bottlesPerBatchAt70cl": 11.928571428571429
+    },
+    {
+      "name": "Benito Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Poli Sassicaia",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Strawberry Campari",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino",
+          "clPerBatch": 50,
+          "bottleSizeCl": 75,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yogurt Whey",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        },
+        {
+          "name": "Red Cordial",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        }
+      ],
+      "totalClPerBatch": 750,
+      "bottlesPerBatchAt70cl": 10.714285714285714
+    },
+    {
+      "name": "Boulevardier Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michters Bourbon",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "campari",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi torino",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 210,
+      "bottlesPerBatchAt70cl": 3
+    },
+    {
+      "name": "White Negroni Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Canaima",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Americano Bianco",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Suze Gentian Bitter",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 275,
+      "bottlesPerBatchAt70cl": 3.9285714285714284
+    },
+    {
+      "name": "Spicy Margarita",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Don juleio blanco",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cointreau",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Agave nectar",
+          "clPerBatch": 90,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 360,
+      "bottlesPerBatchAt70cl": 5.142857142857143
+    },
+    {
+      "name": "Black Irish Coffee Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "roe and co",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kahlua",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Demerara 2:1",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Black Coffee",
+          "clPerBatch": 900,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1400,
+      "bottlesPerBatchAt70cl": 20
+    },
+    {
+      "name": "Cannon Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Plantaion Xaymaca",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Plantation Pineapple",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pineapple juice",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cannon Tea",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "lemon",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Milk",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1550,
+      "bottlesPerBatchAt70cl": 22.142857142857142
+    },
+    {
+      "name": "Smoke Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Jamesome Black Barrel",
+          "clPerBatch": 360,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spinola ximenez",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Red Beetroot sirup",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Angostura Bitter",
+          "clPerBatch": 4.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 564.5,
+      "bottlesPerBatchAt70cl": 8.064285714285715
+    },
+    {
+      "name": "Negroni",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Tanquray",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Campari",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 210,
+      "bottlesPerBatchAt70cl": 3
+    },
+    {
+      "name": "Kingston Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 40,
+      "ingredients": [
+        {
+          "name": "Plantation Xaymaca",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino Vermouth",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Campari Bitter",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Angostura Bitter",
+          "clPerBatch": 1.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 241.5,
+      "bottlesPerBatchAt70cl": 3.45
+    },
+    {
+      "name": "Jasmine Paloma",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 56,
+      "ingredients": [
+        {
+          "name": "Don julio blanco",
+          "clPerBatch": 140,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Jasmine Verte",
+          "clPerBatch": 140,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 280,
+      "bottlesPerBatchAt70cl": 4
+    },
+    {
+      "name": "Hanky Panky Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 40,
+      "ingredients": [
+        {
+          "name": "Tanquray London Dry",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino Vermouth",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Unicum Zwack",
+          "clPerBatch": 10,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 250,
+      "bottlesPerBatchAt70cl": 3.5714285714285716
+    },
+    {
+      "name": "Penicillin Prebatch",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Jonny walker black",
+          "clPerBatch": 160,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lagavulin 16",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "White cacao",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 220,
+      "bottlesPerBatchAt70cl": 3.142857142857143
+    },
+    {
+      "name": "Yuzu Gimlet",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Ki No Bi",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yuzu sake",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lime Juce",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple sirup",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Orange Bitter",
+          "clPerBatch": 9,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 859,
+      "bottlesPerBatchAt70cl": 12.271428571428572
+    },
+    {
+      "name": "Honey im Home",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michters rye",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "DOM Benedictine",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "tikki Bitter",
+          "clPerBatch": 1.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 451.5,
+      "bottlesPerBatchAt70cl": 6.45
+    },
+    {
+      "name": "Habanero Swizzle",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Don julio blanco",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kalani",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Jerky Bitter",
+          "clPerBatch": 1,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tikki Bitter",
+          "clPerBatch": 0.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 451.5,
+      "bottlesPerBatchAt70cl": 6.45
+    },
+    {
+      "name": "timbuktu",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "plantation dark",
+          "clPerBatch": 350,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "galliano",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 450,
+      "bottlesPerBatchAt70cl": 6.428571428571429
+    },
+    {
+      "name": "Flying cabbage",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 70,
+      "ingredients": [
+        {
+          "name": "johnnie walker ruby",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "the plum i suppose",
+          "clPerBatch": 105,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "luxardo marachino",
+          "clPerBatch": 35,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "water",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 420,
+      "bottlesPerBatchAt70cl": 6
+    },
+    {
+      "name": "Now or never",
+      "sheet": "Britannia Bar Menu",
+      "cocktailsPerBatch": 70,
+      "ingredients": [
+        {
+          "name": "don julio blanco",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "st. germain",
+          "clPerBatch": 52.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lillet blanc",
+          "clPerBatch": 52.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 315,
+      "bottlesPerBatchAt70cl": 4.5
+    },
+    {
+      "name": "Symphonie Prebatch",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Monkey Shoulder",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cloudy Bay Sav blanc",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tangetis Sirup",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "citric accid Solution",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Williams Pear destillate",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Creme de caco White",
+          "clPerBatch": 14,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1289,
+      "bottlesPerBatchAt70cl": 18.414285714285715
+    },
+    {
+      "name": "Aromatique",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Poli morbida",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin Watermelon",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold water",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Ayala Rose",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "plum bitter",
+          "clPerBatch": 5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1605,
+      "bottlesPerBatchAt70cl": 22.928571428571427
+    },
+    {
+      "name": "A la Royale",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Tariguet White Armagnac",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon Rue Berry",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Elderflower \"juice\"",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dom Perignon",
+          "clPerBatch": 225,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 675,
+      "bottlesPerBatchAt70cl": 9.642857142857142
+    },
+    {
+      "name": "C.R.E.A.M",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Don julio anejo",
+          "clPerBatch": 240,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "FMC Chenin Blanc",
+          "clPerBatch": 600,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yogurt whey",
+          "clPerBatch": 180,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cream cordial",
+          "clPerBatch": 360,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Red water",
+          "clPerBatch": 480,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1860,
+      "bottlesPerBatchAt70cl": 26.571428571428573
+    },
+    {
+      "name": "Supa Sangeria",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Plantation Dark",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Bakardi Razz",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yuzu sake",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Torres gran coronas",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "San pellegrino Blood orange",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Diverse andre secret no tell ingridiens",
+          "clPerBatch": 1100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 2400,
+      "bottlesPerBatchAt70cl": 34.285714285714285
+    },
+    {
+      "name": "Ayahyascha",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Poli cleopatra muscato",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Baron de lay white",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Passion fruit sirup",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 950,
+      "bottlesPerBatchAt70cl": 13.571428571428571
+    },
+    {
+      "name": "Yucatan Prebatch",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Kalani",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Schloss Lieser Kabinett",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Blanc",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Merlet apricot",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1360,
+      "bottlesPerBatchAt70cl": 19.428571428571427
+    },
+    {
+      "name": "Brioche Sour",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Buffalo Trace",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lemon",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Brioche Syrup",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "larceny",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1200,
+      "bottlesPerBatchAt70cl": 17.142857142857142
+    },
+    {
+      "name": "X. O. Fashioned",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Pale & Dry",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Remy Martin 1738",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Krug",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 700,
+      "bottlesPerBatchAt70cl": 10
+    },
+    {
+      "name": "Cote d azur",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Remy Martin 1738",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Planeta Chardonney",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Three cent pinapple",
+          "clPerBatch": 600,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "lemon verbena",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "lemon",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Citric accid",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1800,
+      "bottlesPerBatchAt70cl": 25.714285714285715
+    },
+    {
+      "name": "Santiago",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "El gobernador pisco",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Conor sur",
+          "clPerBatch": 350,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 900,
+      "bottlesPerBatchAt70cl": 12.857142857142858
+    },
+    {
+      "name": "yas queen",
+      "sheet": "Prebatch Vinbaren",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "michters bourbon",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "lemon",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "passion sirup",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "sour mix",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 900,
+      "bottlesPerBatchAt70cl": 12.857142857142858
+    },
+    {
+      "name": "French Club Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Remy Martin 1738 Cognac",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Chambord",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Absenthe 55",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 450,
+      "bottlesPerBatchAt70cl": 6.428571428571429
+    },
+    {
+      "name": "CAFÉ ROYALE PREBATCH",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Chateau Laubade X.O. Armagnac",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kahlua Coffee Liqueu",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Demerara 2:1 Syrup",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Hot Coffee",
+          "clPerBatch": 1200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1750,
+      "bottlesPerBatchAt70cl": 25
+    },
+    {
+      "name": "Grande Champagne Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Grand Marnier",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yellow Chartreuse",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup 1:1",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Peychaud Bitter",
+          "clPerBatch": 2,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 602,
+      "bottlesPerBatchAt70cl": 8.6
+    },
+    {
+      "name": "Peach Sidecar Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Remy Martin 1738 Cognac",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tariquet Blanche Armagnac",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Blanc",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin White Peach",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 600,
+      "bottlesPerBatchAt70cl": 8.571428571428571
+    },
+    {
+      "name": "Boujee Negroni Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Pere Magloire X.O",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Rouge Vermouth",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Campari",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Aperol",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 700,
+      "bottlesPerBatchAt70cl": 10
+    },
+    {
+      "name": "Mait Tai Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Plantation Xaymaca",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Clement Rhu Blanc",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pierre Ferrand Dry Curacao",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Disaronno Amaretto",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 240,
+      "bottlesPerBatchAt70cl": 3.4285714285714284
+    },
+    {
+      "name": "Vieux Carre Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 40,
+      "ingredients": [
+        {
+          "name": "Michter's Rye Whiskey",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Remy Martin V.S.O.P",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino Vermouth",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "D.O.M Benedictine",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Peychaud's Bitters",
+          "clPerBatch": 1.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Angostura Bitter",
+          "clPerBatch": 1.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 263,
+      "bottlesPerBatchAt70cl": 3.757142857142857
+    },
+    {
+      "name": "Blackbird Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Oppland Bourbon Cask",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Absente 55",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Chambord",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 250,
+      "bottlesPerBatchAt70cl": 3.5714285714285716
+    },
+    {
+      "name": "Ruby Highball Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Nikka Days Japanese Whisky",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Americano Rosa",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lemon",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup 1:1",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Inderøy Rhubarb Juice",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 700,
+      "bottlesPerBatchAt70cl": 10
+    },
+    {
+      "name": "Poolside Daiquiri",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 58,
+      "ingredients": [
+        {
+          "name": "Plantation 3 Stars",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kalani Coconut Rum",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Bols Blue Curacao",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple syrup 1:1",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 350,
+      "bottlesPerBatchAt70cl": 5
+    },
+    {
+      "name": "Moonhsine",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Britannia Moonshine",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dandelion & Pine Cone",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 330,
+      "bottlesPerBatchAt70cl": 4.714285714285714
+    },
+    {
+      "name": "Smoke Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Jamesome Black Barrel",
+          "clPerBatch": 360,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spinola ximenez",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Red Beetroot sirup",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Angostura Bitter",
+          "clPerBatch": 4.5,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 564.5,
+      "bottlesPerBatchAt70cl": 8.064285714285715
+    },
+    {
+      "name": "XXX Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Kaluha",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "MR Black",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple sirup 1:1",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 300,
+      "bottlesPerBatchAt70cl": 4.285714285714286
+    },
+    {
+      "name": "Norum Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Lysholm Linie",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "ØX Bygg Vodka",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spricetip Cordial",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Norum Apple",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dilution",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1300,
+      "bottlesPerBatchAt70cl": 18.571428571428573
+    },
+    {
+      "name": "Penicillin Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Jonny walker black",
+          "clPerBatch": 160,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lagavulin 16",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "White cacao",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 220,
+      "bottlesPerBatchAt70cl": 3.142857142857143
+    },
+    {
+      "name": "James Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Monkey Shoulder",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Inderøy Seabuckthorne",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Creme de cacao white",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yarrow Syrup",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon Timur Berry",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 675,
+      "bottlesPerBatchAt70cl": 9.642857142857142
+    },
+    {
+      "name": "Bleken Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nuet (Infused)",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Birdcherry Blossom",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 650,
+      "bottlesPerBatchAt70cl": 9.285714285714286
+    },
+    {
+      "name": "Ingeborg Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michter Rye",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Bareksten Blueberry",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Løynd Plomme destilat",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin Blueberry",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Simple Sirup",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Blueberry juice",
+          "clPerBatch": 30,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 680,
+      "bottlesPerBatchAt70cl": 9.714285714285714
+    },
+    {
+      "name": "Paper Plane Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michters Bourbon",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Apeol",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monetenegro Amaro",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 210,
+      "bottlesPerBatchAt70cl": 3
+    },
+    {
+      "name": "Yucatan Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Kalani",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Schloss Lieser Kabinett",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Blanc",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Merlet apricot",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1360,
+      "bottlesPerBatchAt70cl": 19.428571428571427
+    },
+    {
+      "name": "journey",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Lysholm Linie",
+          "clPerBatch": 240,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Batavia Arrack",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Kopke white 10y",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "simple Sirup 1:1",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 560,
+      "bottlesPerBatchAt70cl": 8
+    },
+    {
+      "name": "Hanky Panky Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 40,
+      "ingredients": [
+        {
+          "name": "Tanquray London Dry",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino Vermouth",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Unicum Zwack",
+          "clPerBatch": 10,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 250,
+      "bottlesPerBatchAt70cl": 3.5714285714285716
+    },
+    {
+      "name": "Rabbit Hole Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 40,
+      "ingredients": [
+        {
+          "name": "Novo Fogo Silver Cachasa",
+          "clPerBatch": 160,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Abente 55",
+          "clPerBatch": 30,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 190,
+      "bottlesPerBatchAt70cl": 2.7142857142857144
+    },
+    {
+      "name": "White Negroni Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 50,
+      "ingredients": [
+        {
+          "name": "Canaima",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Americano Bianco",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Suze Gentian Bitter",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 275,
+      "bottlesPerBatchAt70cl": 3.9285714285714284
+    },
+    {
+      "name": "Trident #2 Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": 70,
+      "ingredients": [
+        {
+          "name": "Trindhjems Aquavit",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cynar",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Amontillado Sherry",
+          "clPerBatch": 80,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Apricot Brandy Cartron",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 260,
+      "bottlesPerBatchAt70cl": 3.7142857142857144
+    },
+    {
+      "name": "Cannon Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Plantaion Xaymaca",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Plantation Pineapple",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pineapple juice",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cannon Tea",
+          "clPerBatch": 500,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "lemon",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1250,
+      "bottlesPerBatchAt70cl": 17.857142857142858
+    },
+    {
+      "name": "Boulevardier Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michters Bourbon",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "campari",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi torino",
+          "clPerBatch": 70,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 210,
+      "bottlesPerBatchAt70cl": 3
+    },
+    {
+      "name": "Strwaberry Swing Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Don julio Reposdao",
+          "clPerBatch": 240,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Aperol",
+          "clPerBatch": 90,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Beso Agave",
+          "clPerBatch": 90,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lime",
+          "clPerBatch": 120,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tea blend",
+          "clPerBatch": 360,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "salt solution",
+          "clPerBatch": 6,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 906,
+      "bottlesPerBatchAt70cl": 12.942857142857143
+    },
+    {
+      "name": "Garden Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "No 52 Blank",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi american Bianco",
+          "clPerBatch": 140,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 350,
+      "bottlesPerBatchAt70cl": 5
+    },
+    {
+      "name": "Wedel Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Remy Martin 1738",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Dolin Rouge",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Rasberry Coulis",
+          "clPerBatch": 280,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lemon",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Whole (not half) Milk",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1180,
+      "bottlesPerBatchAt70cl": 16.857142857142858
+    },
+    {
+      "name": "Cecilie Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Fru catarina lysholm",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Muyu Vetiver Gris",
+          "clPerBatch": 30,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Citric Rhubarb",
+          "clPerBatch": 700,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "roawnberry sirup",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Inderøy Angelica destilliate",
+          "clPerBatch": 30,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1710,
+      "bottlesPerBatchAt70cl": 24.428571428571427
+    },
+    {
+      "name": "Stensrud Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Beefeater Crown Jewel",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Lillet Blanc",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Grapefruit Oleo",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Orange Oleo",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Paragon Vetiver",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Pineapple Mayweed Sirup",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 725,
+      "bottlesPerBatchAt70cl": 10.357142857142858
+    },
+    {
+      "name": "Nansen",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nansen Aquavit",
+          "clPerBatch": 405,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Spinola ximenez",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Edel iseple cider",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "hogweed Sirup",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 680,
+      "bottlesPerBatchAt70cl": 9.714285714285714
+    },
+    {
+      "name": "Benito Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Poli Sassicaia",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Strawberry Campari",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Yogurt Whey",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Red Cordial",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 750,
+      "bottlesPerBatchAt70cl": 10.714285714285714
+    },
+    {
+      "name": "A La luisiane Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Michter Rye Whiskey",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "D.O.M Benedictine",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cocchi Torino",
+          "clPerBatch": 75,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 350,
+      "bottlesPerBatchAt70cl": 5
+    },
+    {
+      "name": "Symphonie Prebatch",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Monkey Shoulder",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cloudy Bay Sav blanc",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Tangetis Sirup",
+          "clPerBatch": 250,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "citric accid Solution",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Williams Pear destillate",
+          "clPerBatch": 25,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Creme de caco White",
+          "clPerBatch": 14,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 1289,
+      "bottlesPerBatchAt70cl": 18.414285714285715
+    },
+    {
+      "name": "Spicy Margarita",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Don juleio blanco",
+          "clPerBatch": 210,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cointreau",
+          "clPerBatch": 60,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Agave nectar",
+          "clPerBatch": 90,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 360,
+      "bottlesPerBatchAt70cl": 5.142857142857143
+    },
+    {
+      "name": "Miyagi Old Fashioned",
+      "sheet": "Prebatch Calculator Mal",
+      "cocktailsPerBatch": null,
+      "ingredients": [
+        {
+          "name": "Nikka Grain",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Nikka Malt",
+          "clPerBatch": 100,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Averna Amaro",
+          "clPerBatch": 20,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Coconut water",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Water",
+          "clPerBatch": 40,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        }
+      ],
+      "totalClPerBatch": 300,
+      "bottlesPerBatchAt70cl": 4.285714285714286
+    }
+  ],
+  "appSettings": {
+    "hiddenIngredients": {},
+    "ingredientBottleOverrides": {}
+  }
+}

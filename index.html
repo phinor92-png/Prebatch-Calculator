@@ -33,6 +33,10 @@
     .toolbar .btn,
     .toolbar .tag{width:100%;}
     .toolbar .tag{display:block; box-sizing:border-box;}
+    .toolbar .tag.advancedOnly{display:none !important;}
+    .showAdvanced .toolbar .tag.advancedOnly{display:block !important;}
+    .toolbar .btn.advancedOnly{display:none !important;}
+    .showAdvanced .toolbar .btn.advancedOnly{display:block !important;}
     .toolbar .tag input{width:100%;}
     .btn{padding:12px 14px; font-size:14px;}
     .tool{padding:12px 12px; font-size:15px;}
@@ -46,6 +50,18 @@
     .kpi .box{flex:1;}
     .quickBtns{justify-content:flex-start;}
     .noteInp{font-size:13px;}
+    .mobileBar{
+      display:flex !important;
+      position:fixed;
+      left:0; right:0; bottom:0;
+      gap:8px;
+      padding:10px;
+      background:rgba(11,18,32,.96);
+      border-top:1px solid var(--line);
+      z-index:120;
+    }
+    .mobileBar .btn{flex:1; padding:12px 8px; font-size:13px;}
+    .wrap{padding-bottom:84px;}
   }
   table{width:100%; border-collapse:collapse;}
   th, td{padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
@@ -90,6 +106,7 @@
   .advancedCol{display:none;}
   .showAdvanced .advancedCol{display:table-cell;}
   .printOnly{display:none;}
+  .mobileBar{display:none;}
   #appRoot{display:none;}
   .authGate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0b1220,#050813); z-index:200;}
   .authCard{width:min(420px,92vw); padding:18px; border-radius:16px; border:1px solid var(--line); background:rgba(18,26,43,.96);}
@@ -169,6 +186,11 @@
     <button class="btn muted advancedOnly" id="importSettings">Import</button>
     <button class="btn" id="toggleAdvanced">Advanced: Off</button>
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
+  </div>
+  <div class="mobileBar">
+    <button class="btn primary" id="mCopy">Copy</button>
+    <button class="btn primary" id="mPrint">Print</button>
+    <button class="btn" id="mReset">Reset</button>
   </div>
 
   <div class="grid">
@@ -1195,6 +1217,12 @@ document.getElementById('reset').addEventListener('click', () => {
   renderPrebatches();
   renderIngredients();
 });
+const mCopy = document.getElementById('mCopy');
+if (mCopy) mCopy.addEventListener('click', () => document.getElementById('copy').click());
+const mPrint = document.getElementById('mPrint');
+if (mPrint) mPrint.addEventListener('click', () => document.getElementById('printSheet').click());
+const mReset = document.getElementById('mReset');
+if (mReset) mReset.addEventListener('click', () => document.getElementById('reset').click());
 
 
 function getCustomPrebatchesForExport(){

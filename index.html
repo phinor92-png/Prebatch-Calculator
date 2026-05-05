@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -25,6 +25,28 @@
   .btn.danger:hover{background:rgba(255,107,107,.22);}
   .grid{display:grid; grid-template-columns: 1.35fr .65fr; gap:16px; align-items:start;}
   @media (max-width: 980px){.grid{grid-template-columns:1fr;}}
+  @media (max-width: 700px){
+    .wrap{margin:12px auto; padding:0 10px 24px;}
+    h1{font-size:20px;}
+    .toolbar{gap:8px;}
+    .toolbar .tool,
+    .toolbar .btn,
+    .toolbar .tag{width:100%;}
+    .toolbar .tag{display:block; box-sizing:border-box;}
+    .toolbar .tag input{width:100%;}
+    .btn{padding:12px 14px; font-size:14px;}
+    .tool{padding:12px 12px; font-size:15px;}
+    .inp{width:84px;}
+    th, td{padding:8px 6px;}
+    /* Mobile simplified prebatch table */
+    #pbTable th:nth-child(1){width:50%;}
+    #pbTable th:nth-child(4){width:50%;}
+    #pbTable .sub{display:none;}
+    .kpi{width:100%;}
+    .kpi .box{flex:1;}
+    .quickBtns{justify-content:flex-start;}
+    .noteInp{font-size:13px;}
+  }
   table{width:100%; border-collapse:collapse;}
   th, td{padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
   th{text-align:left; font-size:12px; letter-spacing:.02em; text-transform:uppercase; color:rgba(234,240,255,.75); position:sticky; top:0; background:rgba(18,26,43,.96); backdrop-filter: blur(6px);}
@@ -68,6 +90,13 @@
   .advancedCol{display:none;}
   .showAdvanced .advancedCol{display:table-cell;}
   .printOnly{display:none;}
+  #appRoot{display:none;}
+  .authGate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0b1220,#050813); z-index:200;}
+  .authCard{width:min(420px,92vw); padding:18px; border-radius:16px; border:1px solid var(--line); background:rgba(18,26,43,.96);}
+  .authCard h2{margin:0 0 8px; font-size:20px;}
+  .authCard p{margin:0 0 12px; color:var(--muted);}
+  .authRow{display:flex; gap:8px;}
+  .authErr{margin-top:10px; color:#ff9b9b; font-size:12px; min-height:16px;}
 
   @media print{
     :root{--bg:#fff;--card:#fff;--text:#111;--line:#d0d0d0;--muted:#555;}
@@ -109,9 +138,21 @@
 </style>
 </head>
 <body>
+<div id="authGate" class="authGate">
+  <div class="authCard">
+    <h2>Calculator Access</h2>
+    <p>Enter password to open the prebatch calculator.</p>
+    <div class="authRow">
+      <input id="authPassword" class="tool" type="password" placeholder="Password" style="flex:1" />
+      <button id="authUnlock" class="btn primary">Unlock</button>
+    </div>
+    <div id="authError" class="authErr"></div>
+  </div>
+</div>
+<div id="appRoot">
 <div class="wrap">
   <h1>Prebatch Production Calculator</h1>
-  <p>Enter how many <b>batches</b> or <b>finished bottles</b> you produced for each prebatch. The calculator totals ingredient usage and bottle requirements.</p>
+  <p>Set batches produced. See required ingredients and bottle equivalents.</p>
   <p id="dataSourceInfo" class="small"></p>
   <div id="printMeta" class="printOnly small"></div>
 
@@ -121,12 +162,12 @@
     <label class="tag advancedOnly">Finished bottle size (cl): <input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
     <button class="btn secondary advancedOnly" id="addPrebatchBtn">+ Add new prebatch</button>
     <button class="btn" id="reset">Reset</button>
-    <button class="btn primary" id="copy">Copy ingredient list</button>
-    <button class="btn primary" id="printSheet">Print sheet</button>
-    <button class="btn muted advancedOnly" id="reloadData">Reload data</button>
-    <button class="btn muted advancedOnly" id="exportSettings">Export settings</button>
-    <button class="btn muted advancedOnly" id="importSettings">Import settings</button>
-    <button class="btn" id="toggleAdvanced">Advanced</button>
+    <button class="btn primary" id="copy">Copy output</button>
+    <button class="btn primary" id="printSheet">Print</button>
+    <button class="btn muted advancedOnly" id="reloadData">Reload</button>
+    <button class="btn muted advancedOnly" id="exportSettings">Export</button>
+    <button class="btn muted advancedOnly" id="importSettings">Import</button>
+    <button class="btn" id="toggleAdvanced">Advanced: Off</button>
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
   </div>
 
@@ -135,7 +176,7 @@
     <div class="card">
       <div class="section">
         <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> (<span class="pill">41 from Excel</span> <span class="pill">+ Custom</span>)</div>
-        <div class="small" style="margin-top:6px;">Tip: Editing Excel recipes creates a <b>local override</b> (does not change the JSON source).</div>
+        <div class="small" style="margin-top:6px;">Editing imported recipes creates a <b>local override</b> (source JSON is unchanged).</div>
       </div>
       <div style="max-height:520px; overflow:auto; border-top:1px solid var(--line);">
         <table id="pbTable">
@@ -145,8 +186,6 @@
               <th class="advancedCol" style="width:20%">Prep note</th>
               <th class="right advancedCol" style="width:12%">Bottles / batch</th>
               <th class="right" style="width:12%">Batches made</th>
-              <th class="right" style="width:12%">Bottles made</th>
-              <th class="advancedCol" style="width:12%">Sheet</th>
               <th class="right advancedCol" style="width:12%">Actions</th>
             </tr>
           </thead>
@@ -155,17 +194,18 @@
       </div>
       <div class="stickyFooter">
         <div class="kpi">
-          <div class="box"><div class="val mono" id="kpiBatches">0.00</div><div class="lbl">Total batches</div></div>
-          <div class="box"><div class="val mono" id="kpiBottles">0.00</div><div class="lbl">Total finished bottles</div></div>
+          <div class="box"><div class="val mono" id="kpiBatches">0.00</div><div class="lbl">Batches</div></div>
+          <div class="box"><div class="val mono" id="kpiBottles">0.00</div><div class="lbl">Finished fl</div></div>
         </div>
-        <div class="small">Tip: you can type decimals (e.g., 0.67 batch) if you only produced part of a batch.</div>
+        <div class="small">Decimals supported (e.g., 0.67 batch).</div>
       </div>
     </div>
 
     <div class="card">
       <div class="section">
         <h2 style="margin:0 0 6px; font-size:18px;">Ingredients required</h2>
-        <div class="small">Hide ingredients from this list (still calculated). Hidden ingredients are also excluded from the copied shopping list.</div>
+        <div class="small">Hidden items stay calculated but are excluded from this list and copied output.</div>
+        <div id="prebatchesMadeInfo" class="small" style="margin-top:8px;"></div>
         <div id="hiddenInfo" class="small" style="margin-top:6px;"></div>
       </div>
       <div style="max-height:520px; overflow:auto; border-top:1px solid var(--line);">
@@ -183,10 +223,10 @@
       </div>
       <div class="stickyFooter">
         <div class="kpi">
-          <div class="box"><div class="val mono" id="kpiIngCl">0.0</div><div class="lbl">Total cl (visible)</div></div>
-          <div class="box"><div class="val mono" id="kpiIngBottles">0.00</div><div class="lbl">Total bottles (visible)</div></div>
+          <div class="box"><div class="val mono" id="kpiIngCl">0.0</div><div class="lbl">Visible cl</div></div>
+          <div class="box"><div class="val mono" id="kpiIngBottles">0.00</div><div class="lbl">Visible fl</div></div>
         </div>
-        <div class="small">Copy button gives you a paste-ready shopping list.</div>
+        <div class="small">Copy output is formatted for system paste.</div>
       </div>
     </div>
 
@@ -231,8 +271,46 @@
     </div>
   </div>
 </div>
+</div>
 
 <script>
+const PAGE_PASSWORD = 'BritanniaBar2026';
+const AUTH_OK_KEY = 'pb_calc_auth_ok';
+function unlockApp(){
+  const gate = document.getElementById('authGate');
+  const app = document.getElementById('appRoot');
+  if (gate) gate.style.display = 'none';
+  if (app) app.style.display = 'block';
+}
+function initAuthGate(){
+  const unlockBtn = document.getElementById('authUnlock');
+  const passwordInput = document.getElementById('authPassword');
+  const errorEl = document.getElementById('authError');
+  if (sessionStorage.getItem(AUTH_OK_KEY) === '1') {
+    unlockApp();
+    return;
+  }
+  const tryUnlock = () => {
+    const entered = String(passwordInput?.value || '');
+    if (entered === PAGE_PASSWORD) {
+      sessionStorage.setItem(AUTH_OK_KEY, '1');
+      unlockApp();
+      return;
+    }
+    if (errorEl) errorEl.textContent = 'Wrong password. Please try again.';
+  };
+  if (unlockBtn) unlockBtn.addEventListener('click', tryUnlock);
+  if (passwordInput) {
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        tryUnlock();
+      }
+    });
+  }
+}
+initAuthGate();
+
 const DATA = {"source": "Utregning Prebatch.xlsx", "unit": "cl", "defaultBottleSizeCl": 70, "prebatches": [{"name": "Benito Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Poli Sassicaia", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Strawberry Campari", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Cocchi Torino", "clPerBatch": 50.0, "bottleSizeCl": null}, {"name": "Yogurt Whey", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Red Cordial", "clPerBatch": 100.0, "bottleSizeCl": null}], "totalClPerBatch": 750.0, "bottlesPerBatchAt70cl": 10.714285714285714}, {"name": "Black Irish Coffee Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "roe and co", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Kahlua", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Demerara 2:1", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Black Coffee", "clPerBatch": 900.0, "bottleSizeCl": null}], "totalClPerBatch": 1400.0, "bottlesPerBatchAt70cl": 20.0}, {"name": "Boulevardier Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Michters Bourbon", "clPerBatch": 70.0, "bottleSizeCl": null}, {"name": "campari", "clPerBatch": 70.0, "bottleSizeCl": null}, {"name": "Cocchi torino", "clPerBatch": 70.0, "bottleSizeCl": null}], "totalClPerBatch": 210.0, "bottlesPerBatchAt70cl": 3.0}, {"name": "Cannon Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Plantaion Xaymaca", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Plantation Pineapple", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Pineapple juice", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Cannon Tea", "clPerBatch": 500.0, "bottleSizeCl": null}, {"name": "lemon", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "Milk", "clPerBatch": 300.0, "bottleSizeCl": null}], "totalClPerBatch": 1550.0, "bottlesPerBatchAt70cl": 22.142857142857142}, {"name": "Cecilie Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Fru catarina lysholm", "clPerBatch": 450.0, "bottleSizeCl": null}, {"name": "Muyu Vetiver Gris", "clPerBatch": 35.0, "bottleSizeCl": null}, {"name": "Citric Rhubarb", "clPerBatch": 700.0, "bottleSizeCl": null}, {"name": "InderÃ¸y Angelica destilliate", "clPerBatch": 35.0, "bottleSizeCl": null}, {"name": "roawnberry sirup", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 350.0, "bottleSizeCl": null}], "totalClPerBatch": 1870.0, "bottlesPerBatchAt70cl": 26.714285714285715}, {"name": "Flying cabbage", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 70, "ingredients": [{"name": "johnnie walker ruby", "clPerBatch": 210.0, "bottleSizeCl": null}, {"name": "the plum i suppose", "clPerBatch": 105.0, "bottleSizeCl": null}, {"name": "luxardo marachino", "clPerBatch": 35.0, "bottleSizeCl": null}, {"name": "water", "clPerBatch": 70.0, "bottleSizeCl": null}], "totalClPerBatch": 420.0, "bottlesPerBatchAt70cl": 6.0}, {"name": "Habanero Swizzle", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Don julio blanco", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Kalani", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "Jerky Bitter", "clPerBatch": 1.0, "bottleSizeCl": null}, {"name": "Tikki Bitter", "clPerBatch": 0.5, "bottleSizeCl": null}], "totalClPerBatch": 451.5, "bottlesPerBatchAt70cl": 6.45}, {"name": "Hanky Panky Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 40, "ingredients": [{"name": "Tanquray London Dry", "clPerBatch": 120.0, "bottleSizeCl": null}, {"name": "Cocchi Torino Vermouth", "clPerBatch": 120.0, "bottleSizeCl": null}, {"name": "Unicum Zwack", "clPerBatch": 10.0, "bottleSizeCl": null}], "totalClPerBatch": 250.0, "bottlesPerBatchAt70cl": 3.5714285714285716}, {"name": "Honey im Home", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Michters rye", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "DOM Benedictine", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "tikki Bitter", "clPerBatch": 1.5, "bottleSizeCl": null}], "totalClPerBatch": 451.5, "bottlesPerBatchAt70cl": 6.45}, {"name": "Jasmine Paloma", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 56, "ingredients": [{"name": "Don julio blanco", "clPerBatch": 140.0, "bottleSizeCl": null}, {"name": "Jasmine Verte", "clPerBatch": 140.0, "bottleSizeCl": null}], "totalClPerBatch": 280.0, "bottlesPerBatchAt70cl": 4.0}, {"name": "Kingston Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 40, "ingredients": [{"name": "Plantation Xaymaca", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Cocchi Torino Vermouth", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Campari Bitter", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Angostura Bitter", "clPerBatch": 1.5, "bottleSizeCl": null}], "totalClPerBatch": 241.5, "bottlesPerBatchAt70cl": 3.45}, {"name": "Negroni", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Tanquray", "clPerBatch": 70.0, "bottleSizeCl": null}, {"name": "Cocchi Torino", "clPerBatch": 70.0, "bottleSizeCl": null}, {"name": "Campari", "clPerBatch": 70.0, "bottleSizeCl": null}], "totalClPerBatch": 210.0, "bottlesPerBatchAt70cl": 3.0}, {"name": "Now or never", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 70, "ingredients": [{"name": "don julio blanco", "clPerBatch": 210.0, "bottleSizeCl": null}, {"name": "st. germain", "clPerBatch": 52.5, "bottleSizeCl": null}, {"name": "Lillet blanc", "clPerBatch": 52.5, "bottleSizeCl": null}], "totalClPerBatch": 315.0, "bottlesPerBatchAt70cl": 4.5}, {"name": "Penicillin Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Jonny walker black", "clPerBatch": 160.0, "bottleSizeCl": null}, {"name": "Lagavulin 16", "clPerBatch": 40.0, "bottleSizeCl": null}, {"name": "White cacao", "clPerBatch": 20.0, "bottleSizeCl": null}], "totalClPerBatch": 220.0, "bottlesPerBatchAt70cl": 3.142857142857143}, {"name": "Smoke Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Jamesome Black Barrel", "clPerBatch": 360.0, "bottleSizeCl": null}, {"name": "Spinola ximenez", "clPerBatch": 40.0, "bottleSizeCl": null}, {"name": "Red Beetroot sirup", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Cold Water", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Angostura Bitter", "clPerBatch": 4.5, "bottleSizeCl": null}], "totalClPerBatch": 564.5, "bottlesPerBatchAt70cl": 8.064285714285715}, {"name": "Spicy Margarita", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Don juleio blanco", "clPerBatch": 210.0, "bottleSizeCl": null}, {"name": "Cointreau", "clPerBatch": 60.0, "bottleSizeCl": null}, {"name": "Agave nectar", "clPerBatch": 90.0, "bottleSizeCl": null}], "totalClPerBatch": 360.0, "bottlesPerBatchAt70cl": 5.142857142857143}, {"name": "Stensrud Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Beefeater Crown Jewel(tanq 10)", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Lillet Blanc", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Paragon Vetiver", "clPerBatch": 75.0, "bottleSizeCl": null}, {"name": "Loimer Verjus", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Grapefruit Oleo", "clPerBatch": 75.0, "bottleSizeCl": null}, {"name": "Orange Oleo", "clPerBatch": 25.0, "bottleSizeCl": null}, {"name": "Pineapple Mayweed Sirup", "clPerBatch": 50.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 110.0, "bottleSizeCl": null}], "totalClPerBatch": 835.0, "bottlesPerBatchAt70cl": 11.928571428571429}, {"name": "timbuktu", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "plantation dark", "clPerBatch": 350.0, "bottleSizeCl": null}, {"name": "galliano", "clPerBatch": 100.0, "bottleSizeCl": null}], "totalClPerBatch": 450.0, "bottlesPerBatchAt70cl": 6.428571428571429}, {"name": "Wedel Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Remy Martin 1738", "clPerBatch": 310.0, "bottleSizeCl": null}, {"name": "Dolin Rouge", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Rasberry Coulis", "clPerBatch": 280.0, "bottleSizeCl": null}, {"name": "Lemon", "clPerBatch": 210.0, "bottleSizeCl": null}, {"name": "Whole (not half) Milk", "clPerBatch": 200.0, "bottleSizeCl": null}], "totalClPerBatch": 1200.0, "bottlesPerBatchAt70cl": 17.142857142857142}, {"name": "White Negroni Prebatch", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": 50, "ingredients": [{"name": "Canaima", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Cocchi Americano Bianco", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Suze Gentian Bitter", "clPerBatch": 75.0, "bottleSizeCl": null}], "totalClPerBatch": 275.0, "bottlesPerBatchAt70cl": 3.9285714285714284}, {"name": "Yuzu Gimlet", "sheet": "Britannia Bar Menu", "cocktailsPerBatch": null, "ingredients": [{"name": "Ki No Bi", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Yuzu sake", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Lime Juce", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "Simple sirup", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "Orange Bitter", "clPerBatch": 9.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 150.0, "bottleSizeCl": null}], "totalClPerBatch": 859.0, "bottlesPerBatchAt70cl": 12.271428571428572}, {"name": "Boujee Negroni Prebatch", "sheet": "Prebatch Brasserie", "cocktailsPerBatch": 100, "ingredients": [{"name": "Pere Magloire X.O", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Dolin Rouge Vermouth", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Campari", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Aperol", "clPerBatch": 100.0, "bottleSizeCl": null}], "totalClPerBatch": 700.0, "bottlesPerBatchAt70cl": 10.0}, {"name": "Peach Sidecar Prebatch", "sheet": "Prebatch Brasserie", "cocktailsPerBatch": 100, "ingredients": [{"name": "Remy Martin 1738 Cognac", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Tariquet Blanche Armagnac", "clPerBatch": 50.0, "bottleSizeCl": null}, {"name": "Dolin Blanc", "clPerBatch": 50.0, "bottleSizeCl": null}, {"name": "Monin White Peach", "clPerBatch": 200.0, "bottleSizeCl": null}], "totalClPerBatch": 600.0, "bottlesPerBatchAt70cl": 8.571428571428571}, {"name": "A La luisiane Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Michter Rye Whiskey", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "D.O.M Benedictine", "clPerBatch": 75.0, "bottleSizeCl": null}, {"name": "Cocchi Torino", "clPerBatch": 75.0, "bottleSizeCl": null}], "totalClPerBatch": 350.0, "bottlesPerBatchAt70cl": 5.0}, {"name": "Cannon Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Plantaion Xaymaca", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Plantation Pineapple", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Pineapple juice", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Cannon Tea", "clPerBatch": 500.0, "bottleSizeCl": null}, {"name": "lemon", "clPerBatch": 150.0, "bottleSizeCl": null}], "totalClPerBatch": 1250.0, "bottlesPerBatchAt70cl": 17.857142857142858}, {"name": "Cecilie Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Fru catarina lysholm", "clPerBatch": 450.0, "bottleSizeCl": null}, {"name": "Muyu Vetiver Gris", "clPerBatch": 30.0, "bottleSizeCl": null}, {"name": "Citric Rhubarb", "clPerBatch": 700.0, "bottleSizeCl": null}, {"name": "roawnberry sirup", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "InderÃ¸y Angelica destilliate", "clPerBatch": 30.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 200.0, "bottleSizeCl": null}], "totalClPerBatch": 1710.0, "bottlesPerBatchAt70cl": 24.428571428571427}, {"name": "Garden Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "No 52 Blank", "clPerBatch": 210.0, "bottleSizeCl": null}, {"name": "Cocchi american Bianco", "clPerBatch": 140.0, "bottleSizeCl": null}], "totalClPerBatch": 350.0, "bottlesPerBatchAt70cl": 5.0}, {"name": "Miyagi Old Fashioned", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Nikka Grain", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Nikka Malt", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Averna Amaro", "clPerBatch": 20.0, "bottleSizeCl": null}, {"name": "Coconut water", "clPerBatch": 40.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 40.0, "bottleSizeCl": null}], "totalClPerBatch": 300.0, "bottlesPerBatchAt70cl": 4.285714285714286}, {"name": "Nansen", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Nansen Aquavit", "clPerBatch": 405.0, "bottleSizeCl": null}, {"name": "Spinola ximenez", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Edel iseple cider", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "hogweed Sirup", "clPerBatch": 75.0, "bottleSizeCl": null}], "totalClPerBatch": 680.0, "bottlesPerBatchAt70cl": 9.714285714285714}, {"name": "Rabbit Hole Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": 40, "ingredients": [{"name": "Novo Fogo Silver Cachasa", "clPerBatch": 160.0, "bottleSizeCl": null}, {"name": "Abente 55", "clPerBatch": 30.0, "bottleSizeCl": null}], "totalClPerBatch": 190.0, "bottlesPerBatchAt70cl": 2.7142857142857144}, {"name": "Stensrud Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Beefeater Crown Jewel", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Lillet Blanc", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Grapefruit Oleo", "clPerBatch": 75.0, "bottleSizeCl": null}, {"name": "Orange Oleo", "clPerBatch": 25.0, "bottleSizeCl": null}, {"name": "Paragon Vetiver", "clPerBatch": 75.0, "bottleSizeCl": null}, {"name": "Loimer Verjus", "clPerBatch": 100.0, "bottleSizeCl": null}, {"name": "Pineapple Mayweed Sirup", "clPerBatch": 50.0, "bottleSizeCl": null}], "totalClPerBatch": 725.0, "bottlesPerBatchAt70cl": 10.357142857142858}, {"name": "Strwaberry Swing Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Don julio Reposdao", "clPerBatch": 240.0, "bottleSizeCl": null}, {"name": "Aperol", "clPerBatch": 90.0, "bottleSizeCl": null}, {"name": "Beso Agave", "clPerBatch": 90.0, "bottleSizeCl": null}, {"name": "Lime", "clPerBatch": 120.0, "bottleSizeCl": null}, {"name": "Tea blend", "clPerBatch": 360.0, "bottleSizeCl": null}, {"name": "salt solution", "clPerBatch": 6.0, "bottleSizeCl": null}], "totalClPerBatch": 906.0, "bottlesPerBatchAt70cl": 12.942857142857143}, {"name": "Symphonie Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Monkey Shoulder", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Cloudy Bay Sav blanc", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Tangetis Sirup", "clPerBatch": 250.0, "bottleSizeCl": null}, {"name": "citric accid Solution", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Cold Water", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Williams Pear destillate", "clPerBatch": 25.0, "bottleSizeCl": null}, {"name": "Creme de caco White", "clPerBatch": 14.0, "bottleSizeCl": null}], "totalClPerBatch": 1289.0, "bottlesPerBatchAt70cl": 18.414285714285715}, {"name": "Trident #2 Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": 70, "ingredients": [{"name": "Trindhjems Aquavit", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Cynar", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Amontillado Sherry", "clPerBatch": 80.0, "bottleSizeCl": null}, {"name": "Apricot Brandy Cartron", "clPerBatch": 20.0, "bottleSizeCl": null}], "totalClPerBatch": 260.0, "bottlesPerBatchAt70cl": 3.7142857142857144}, {"name": "Wedel Prebatch", "sheet": "Prebatch Calculator Mal", "cocktailsPerBatch": null, "ingredients": [{"name": "Remy Martin 1738", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Dolin Rouge", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Rasberry Coulis", "clPerBatch": 280.0, "bottleSizeCl": null}, {"name": "Lemon", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Whole (not half) Milk", "clPerBatch": 200.0, "bottleSizeCl": null}], "totalClPerBatch": 1180.0, "bottlesPerBatchAt70cl": 16.857142857142858}, {"name": "Brioche Sour", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "Buffalo Trace", "clPerBatch": 400.0, "bottleSizeCl": null}, {"name": "Lemon", "clPerBatch": 400.0, "bottleSizeCl": null}, {"name": "Brioche Syrup", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 50.0, "bottleSizeCl": null}, {"name": "larceny", "clPerBatch": 50.0, "bottleSizeCl": null}], "totalClPerBatch": 1200.0, "bottlesPerBatchAt70cl": 17.142857142857142}, {"name": "Cote d azur", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "Remy Martin 1738", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Planeta Chardonney", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Three cent pinapple", "clPerBatch": 600.0, "bottleSizeCl": null}, {"name": "lemon verbena", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "lemon", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Citric accid", "clPerBatch": 100.0, "bottleSizeCl": null}], "totalClPerBatch": 1800.0, "bottlesPerBatchAt70cl": 25.714285714285715}, {"name": "Santiago", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "El gobernador pisco", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "Monin", "clPerBatch": 250.0, "bottleSizeCl": null}, {"name": "Conor sur", "clPerBatch": 350.0, "bottleSizeCl": null}], "totalClPerBatch": 900.0, "bottlesPerBatchAt70cl": 12.857142857142858}, {"name": "X. O. Fashioned", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "Pale & Dry", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Remy Martin 1738", "clPerBatch": 250.0, "bottleSizeCl": null}, {"name": "Krug", "clPerBatch": 150.0, "bottleSizeCl": null}, {"name": "Water", "clPerBatch": 100.0, "bottleSizeCl": null}], "totalClPerBatch": 700.0, "bottlesPerBatchAt70cl": 10.0}, {"name": "yas queen", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "michters bourbon", "clPerBatch": 300.0, "bottleSizeCl": null}, {"name": "lemon", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "passion sirup", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "sour mix", "clPerBatch": 200.0, "bottleSizeCl": null}], "totalClPerBatch": 900.0, "bottlesPerBatchAt70cl": 12.857142857142858}, {"name": "Yucatan Prebatch", "sheet": "Prebatch Vinbaren", "cocktailsPerBatch": null, "ingredients": [{"name": "Kalani", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Schloss Lieser Kabinett", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Dolin Blanc", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Loimer Verjus", "clPerBatch": 200.0, "bottleSizeCl": null}, {"name": "Merlet apricot", "clPerBatch": 60.0, "bottleSizeCl": null}, {"name": "Cold Water", "clPerBatch": 500.0, "bottleSizeCl": null}], "totalClPerBatch": 1360.0, "bottlesPerBatchAt70cl": 19.428571428571427}]};
 let DATA_LOAD_MESSAGE = 'Using embedded recipe data.';
 function tryLoadDataFromJson(){
@@ -497,6 +575,10 @@ let showHidden = false;
 const ADVANCED_VIEW_KEY = 'advancedViewEnabled';
 let advancedViewEnabled = localStorage.getItem(ADVANCED_VIEW_KEY) === '1';
 if (advancedViewEnabled) document.body.classList.add('showAdvanced');
+function updateAdvancedButtonLabel(){
+  const btn = document.getElementById('toggleAdvanced');
+  if (btn) btn.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
+}
 
 // Update count
 document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
@@ -511,6 +593,7 @@ const finBottleSizeEl = document.getElementById('finishedBottleSize');
 const pbTbody = document.querySelector('#pbTable tbody');
 const ingTbody = document.querySelector('#ingTable tbody');
 const hiddenInfo = document.getElementById('hiddenInfo');
+const prebatchesMadeInfo = document.getElementById('prebatchesMadeInfo');
 
 function clampNum(x){
   if (x === '' || x === null || x === undefined) return 0;
@@ -539,7 +622,7 @@ function renderPrebatches(){
     .forEach(pbRaw => {
       const pb = getEffectivePrebatch(pbRaw);
       const id = pbRaw._id;
-      if (!state.has(id)) state.set(id, {batches:0, bottles:0});
+      if (!state.has(id)) state.set(id, {batches:0});
       const st = state.get(id);
 
       const bpb = bottlesPerBatch(pb, finBottleSize);
@@ -587,10 +670,6 @@ function renderPrebatches(){
             <button class="quickBtn" data-inc-id="${id}" data-inc="2" title="Add 2 batches">+2</button>
           </div>
         </td>
-        <td class="right">
-          <input class="tool inp mono" type="text" inputmode="decimal" value="${Number(st.bottles).toFixed(2)}" data-id="${id}" data-mode="bottles" />
-        </td>
-        <td class="mono small advancedCol">${pbRaw.sheet}</td>
         <td class="right advancedCol">${actions}</td>
       `;
       pbTbody.appendChild(tr);
@@ -606,13 +685,9 @@ function renderPrebatches(){
     const bpb = bottlesPerBatch(pb, finBottleSize);
     const val = clampNum(inputEl.value);
 
-    const st = state.get(id) || {batches:0, bottles:0};
+    const st = state.get(id) || {batches:0};
     if (mode === 'batches') {
       st.batches = val;
-      st.bottles = bpb ? (val * bpb) : 0;
-    } else {
-      st.bottles = val;
-      st.batches = bpb ? (val / bpb) : 0;
     }
     state.set(id, st);
     renderPrebatches();
@@ -639,9 +714,8 @@ function renderPrebatches(){
       const pb = getEffectivePrebatch(pbRaw);
       const finBottleSize = clampNum(finBottleSizeEl.value) || 70;
       const bpb = bottlesPerBatch(pb, finBottleSize);
-      const st = state.get(id) || {batches:0, bottles:0};
+      const st = state.get(id) || {batches:0};
       st.batches = clampNum(st.batches) + inc;
-      st.bottles = bpb ? (st.batches * bpb) : 0;
       state.set(id, st);
       renderPrebatches();
       renderIngredients();
@@ -679,6 +753,7 @@ function renderIngredients(){
   const totals = new Map();
   let totalBatches=0;
   let totalFinishedBottles=0;
+  const madeLines = [];
 
   DATA.prebatches.forEach(pbRaw => {
     const id = pbRaw._id;
@@ -690,7 +765,9 @@ function renderIngredients(){
     const pb = getEffectivePrebatch(pbRaw);
 
     totalBatches += batches;
-    totalFinishedBottles += batches * bottlesPerBatch(pb, finBottleSize);
+    const madeBottles = batches * bottlesPerBatch(pb, finBottleSize);
+    totalFinishedBottles += madeBottles;
+    madeLines.push(`${pb.name}:   ${madeBottles.toFixed(2)} fl`);
 
     (pb.ingredients||[]).forEach(ing => {
       const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
@@ -718,6 +795,11 @@ function renderIngredients(){
 
   document.getElementById('kpiBatches').textContent = totalBatches.toFixed(2);
   document.getElementById('kpiBottles').textContent = totalFinishedBottles.toFixed(2);
+  if (madeLines.length > 0) {
+    prebatchesMadeInfo.innerHTML = `<b>Prebatches made</b><br>${madeLines.map(s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')).join('<br>')}`;
+  } else {
+    prebatchesMadeInfo.innerHTML = '';
+  }
 
   const hiddenCount = Object.keys(hiddenIngredients).filter(k => hiddenIngredients[k]).length;
   if (hiddenCount > 0) {
@@ -1105,6 +1187,7 @@ document.getElementById('toggleAdvanced').addEventListener('click', () => {
   advancedViewEnabled = !advancedViewEnabled;
   document.body.classList.toggle('showAdvanced', advancedViewEnabled);
   localStorage.setItem(ADVANCED_VIEW_KEY, advancedViewEnabled ? '1' : '0');
+  updateAdvancedButtonLabel();
   renderPrebatches();
 });
 document.getElementById('reset').addEventListener('click', () => {
@@ -1388,6 +1471,7 @@ document.getElementById('copy').addEventListener('click', async () => {
 
 renderPrebatches();
 renderIngredients();
+updateAdvancedButtonLabel();
 </script>
 </body>
 </html>

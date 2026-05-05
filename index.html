@@ -37,6 +37,7 @@
     .showAdvanced .toolbar .tag.advancedOnly{display:block !important;}
     .toolbar .btn.advancedOnly{display:none !important;}
     .showAdvanced .toolbar .btn.advancedOnly{display:block !important;}
+    #reset,#copy,#printSheet,#toggleAdvanced{display:none !important;}
     .toolbar .tag input{width:100%;}
     .btn{padding:12px 14px; font-size:14px;}
     .tool{padding:12px 12px; font-size:15px;}
@@ -62,6 +63,7 @@
     }
     .mobileBar .btn{flex:1; padding:12px 8px; font-size:13px;}
     .wrap{padding-bottom:84px;}
+    .mobileOnlyControl{display:inline-block;}
   }
   table{width:100%; border-collapse:collapse;}
   th, td{padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
@@ -107,6 +109,7 @@
   .showAdvanced .advancedCol{display:table-cell;}
   .printOnly{display:none;}
   .mobileBar{display:none;}
+  .mobileOnlyControl{display:none;}
   #appRoot{display:none;}
   .authGate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0b1220,#050813); z-index:200;}
   .authCard{width:min(420px,92vw); padding:18px; border-radius:16px; border:1px solid var(--line); background:rgba(18,26,43,.96);}
@@ -196,7 +199,7 @@
 
     <div class="card">
       <div class="section">
-        <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> (<span class="pill">41 from Excel</span> <span class="pill">+ Custom</span>)</div>
+        <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> (<span class="pill">41 from Excel</span> <span class="pill">+ Custom</span>) <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button></div>
         <div class="small" style="margin-top:6px;">Editing imported recipes creates a <b>local override</b> (source JSON is unchanged).</div>
         <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search prebatch (e.g., Negroni, Mai Tai...)" />
       </div>
@@ -600,6 +603,8 @@ if (advancedViewEnabled) document.body.classList.add('showAdvanced');
 function updateAdvancedButtonLabel(){
   const btn = document.getElementById('toggleAdvanced');
   if (btn) btn.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
+  const mb = document.getElementById('mobileAdvancedToggle');
+  if (mb) mb.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
 }
 
 // Update count
@@ -1212,6 +1217,12 @@ document.getElementById('toggleAdvanced').addEventListener('click', () => {
   updateAdvancedButtonLabel();
   renderPrebatches();
 });
+const mobileAdvancedToggle = document.getElementById('mobileAdvancedToggle');
+if (mobileAdvancedToggle) {
+  mobileAdvancedToggle.addEventListener('click', () => {
+    document.getElementById('toggleAdvanced').click();
+  });
+}
 document.getElementById('reset').addEventListener('click', () => {
   state.clear();
   renderPrebatches();

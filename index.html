@@ -174,7 +174,6 @@
   <div id="printMeta" class="printOnly small"></div>
 
   <div class="toolbar">
-    <input id="search" class="tool" style="min-width:260px" placeholder="Search prebatch (e.g., Negroni, Mai Tai...)" />
     <label class="tag advancedOnly">Default ingredient bottle size (cl): <input id="ingredientBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
     <label class="tag advancedOnly">Finished bottle size (cl): <input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
     <button class="btn secondary advancedOnly" id="addPrebatchBtn">+ Add new prebatch</button>
@@ -199,6 +198,7 @@
       <div class="section">
         <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> (<span class="pill">41 from Excel</span> <span class="pill">+ Custom</span>)</div>
         <div class="small" style="margin-top:6px;">Editing imported recipes creates a <b>local override</b> (source JSON is unchanged).</div>
+        <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search prebatch (e.g., Negroni, Mai Tai...)" />
       </div>
       <div style="max-height:520px; overflow:auto; border-top:1px solid var(--line);">
         <table id="pbTable">

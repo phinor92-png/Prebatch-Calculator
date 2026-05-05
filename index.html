@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Prebatch Production Calculator</title>
+<title>Prebatch Calculator</title>
 <style>
   :root{--bg:#0b1220;--card:#121a2b;--muted:#93a4c7;--text:#eaf0ff;--line:rgba(255,255,255,.10);--accent:#7aa2ff;--accent2:#5df2c2;--danger:#ff6b6b;}
   body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:linear-gradient(180deg,#0b1220,#050813); color:var(--text);}
@@ -64,6 +64,8 @@
     .mobileBar .btn{flex:1; padding:12px 8px; font-size:13px;}
     .wrap{padding-bottom:84px;}
     .mobileOnlyControl{display:inline-block;}
+    .toastWrap{left:10px; right:10px; bottom:96px;}
+    .toast{max-width:none;}
   }
   table{width:100%; border-collapse:collapse;}
   th, td{padding:10px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
@@ -75,6 +77,9 @@
   .small{font-size:12px; color:var(--muted);}
   .inp{width:90px; text-align:right;}
   .name{font-weight:600;}
+  .nameBtn{display:inline-flex; align-items:center; gap:6px; padding:0; border:none; background:transparent; color:var(--text); font:inherit; text-align:left; cursor:pointer;}
+  .nameBtn:hover .nameTxt{text-decoration:underline;}
+  .nameBtn:focus-visible{outline:2px solid rgba(122,162,255,.7); outline-offset:2px; border-radius:6px;}
   .sub{font-size:12px; color:rgba(234,240,255,.65); margin-top:2px;}
   .noteInp{width:100%; margin-top:6px; font-size:12px;}
   .quickBtns{display:flex; justify-content:flex-end; gap:6px; margin-top:6px;}
@@ -110,6 +115,11 @@
   .printOnly{display:none;}
   .mobileBar{display:none;}
   .mobileOnlyControl{display:none;}
+  .toastWrap{position:fixed; right:16px; bottom:16px; display:flex; flex-direction:column; gap:8px; z-index:260; pointer-events:none;}
+  .toast{max-width:min(420px,90vw); background:rgba(18,26,43,.96); border:1px solid var(--line); color:var(--text); border-radius:12px; padding:10px 12px; box-shadow:0 12px 28px rgba(0,0,0,.35); font-size:13px; line-height:1.35; opacity:0; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;}
+  .toast.show{opacity:1; transform:translateY(0);}
+  .toast.ok{border-color:rgba(93,242,194,.45);}
+  .toast.warn{border-color:rgba(255,107,107,.45);}
   #appRoot{display:none;}
   .authGate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#0b1220,#050813); z-index:200;}
   .authCard{width:min(420px,92vw); padding:18px; border-radius:16px; border:1px solid var(--line); background:rgba(18,26,43,.96);}
@@ -158,6 +168,7 @@
 </style>
 </head>
 <body>
+<div id="toastWrap" class="toastWrap" aria-live="polite"></div>
 <div id="authGate" class="authGate">
   <div class="authCard">
     <h2>Calculator Access</h2>
@@ -171,7 +182,7 @@
 </div>
 <div id="appRoot">
 <div class="wrap">
-  <h1>Prebatch Production Calculator</h1>
+  <h1>Prebatch Calculator</h1>
   <p>Set batches produced. See required ingredients and bottle equivalents.</p>
   <p id="dataSourceInfo" class="small"></p>
   <div id="printMeta" class="printOnly small"></div>
@@ -199,9 +210,9 @@
 
     <div class="card">
       <div class="section">
-        <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> (<span class="pill">41 from Excel</span> <span class="pill">+ Custom</span>) <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button></div>
-        <div class="small" style="margin-top:6px;">Editing imported recipes creates a <b>local override</b> (source JSON is unchanged).</div>
-        <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search prebatch (e.g., Negroni, Mai Tai...)" />
+        <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button></div>
+        <div class="small" style="margin-top:6px;">You can import new or updated recipes.</div>
+        <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search Prebatch" />
       </div>
       <div style="max-height:520px; overflow:auto; border-top:1px solid var(--line);">
         <table id="pbTable">
@@ -210,9 +221,7 @@
               <th style="width:40%">Prebatch</th>
               <th class="advancedCol" style="width:20%">Prep note</th>
               <th class="right advancedCol" style="width:12%">Bottles / batch</th>
-              <th class="right" style="width:12%">Batches made</th>
-              <th class="right advancedCol" style="width:12%">Actions</th>
-            </tr>
+              <th class="right" style="width:12%">Batches made</th>            </tr>
           </thead>
           <tbody></tbody>
         </table>
@@ -301,6 +310,20 @@
 <script>
 const PAGE_PASSWORD = 'BritanniaBar2026';
 const AUTH_OK_KEY = 'pb_calc_auth_ok';
+function showToast(message, type='ok', durationMs=2600){
+  const wrap = document.getElementById('toastWrap');
+  if (!wrap) return;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type === 'warn' ? 'warn' : 'ok'}`;
+  toast.textContent = String(message || '');
+  wrap.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  window.setTimeout(() => {
+    toast.classList.remove('show');
+    window.setTimeout(() => toast.remove(), 220);
+  }, Math.max(900, durationMs|0));
+}
+window.alert = (message) => showToast(message, 'ok');
 function unlockApp(){
   const gate = document.getElementById('authGate');
   const app = document.getElementById('appRoot');
@@ -658,22 +681,6 @@ function renderPrebatches(){
       const isCustom = pbRaw.sheet === 'Custom';
       const hasOverride = !!prebatchOverrides[pbRaw._id];
 
-      let actions = '';
-      if (isCustom) {
-        actions = `
-          <div class="actions">
-            <button class="iconBtn" data-action="edit-custom" data-id="${id}">Edit</button>
-            <button class="iconBtn danger" data-action="delete-custom" data-id="${id}">Delete</button>
-          </div>
-        `;
-      } else {
-        actions = `
-          <div class="actions">
-            <button class="iconBtn" data-action="edit-override" data-id="${id}">Edit (override)</button>
-            ${hasOverride ? `<button class="iconBtn danger" data-action="reset-override" data-id="${id}">Reset</button>` : ''}
-          </div>
-        `;
-      }
 
       const badge = (pb._override) ? '<span class="badge">override</span>' : '';
 
@@ -682,7 +689,9 @@ function renderPrebatches(){
       if ((Number(st.batches) || 0) > 0) tr.classList.add('printInclude');
       tr.innerHTML = `
         <td>
-          <div class="name">${pb.name}${badge}</div>
+          <button class="nameBtn" data-edit-mode="${isCustom ? 'edit-custom' : 'edit-override'}" data-edit-id="${id}" title="Edit prebatch">
+            <span class="name nameTxt">${pb.name}${badge}</span>
+          </button>
           <div class="sub mono">Batch total: ${batchTotal.toFixed(0)} cl</div>
         </td>
         <td class="advancedCol">
@@ -696,9 +705,7 @@ function renderPrebatches(){
             <button class="quickBtn" data-inc-id="${id}" data-inc="1" title="Add 1 batch">+1</button>
             <button class="quickBtn" data-inc-id="${id}" data-inc="2" title="Add 2 batches">+2</button>
           </div>
-        </td>
-        <td class="right advancedCol">${actions}</td>
-      `;
+        </td>      `;
       pbTbody.appendChild(tr);
     });
 
@@ -759,14 +766,12 @@ function renderPrebatches(){
     });
   });
 
-  pbTbody.querySelectorAll('button[data-action]').forEach(btn => {
+  pbTbody.querySelectorAll('button[data-edit-id]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const action = btn.dataset.action;
-      const id = btn.dataset.id;
-      if (action === 'edit-custom') openModal('edit-custom', id);
-      if (action === 'delete-custom') deleteCustomPrebatch(id);
-      if (action === 'edit-override') openModal('edit-override', id);
-      if (action === 'reset-override') resetOverride(id);
+      const mode = btn.dataset.editMode;
+      const id = btn.dataset.editId;
+      if (!mode || !id) return;
+      openModal(mode, id);
     });
   });
 
@@ -1514,6 +1519,9 @@ updateAdvancedButtonLabel();
 </script>
 </body>
 </html>
+
+
+
 
 
 

@@ -123,7 +123,7 @@
   .kpi .lbl{font-size:12px; color:var(--muted);}
 
   /* Modal */
-  .modalBack{display:none; position:fixed; inset:0; overflow:auto; background:rgba(0,0,0,.6); z-index:50;}
+  .modalBack{display:none; position:fixed; inset:0; overflow:auto; background:rgba(0,0,0,.6); z-index:230;}
   .modal{box-sizing:border-box; background:rgba(25,24,22,.98); border:1px solid var(--line); border-radius:8px; box-shadow:0 20px 50px rgba(0,0,0,.6); width:min(900px, calc(100vw - 20px)); margin:56px auto; padding:16px;}
   .modal h2{margin:4px 0 10px; font-size:18px;}
   .modal h3{margin:12px 0 8px; font-size:14px; color:rgba(247,241,231,.82);}
@@ -138,6 +138,17 @@
   .previewStats span{display:block; color:var(--text); font-weight:800; font-size:17px; line-height:1;}
   .previewStats small{display:block; margin-top:5px; color:var(--muted); font-size:11px;}
   .sheetPreview{box-sizing:border-box; max-height:55vh; overflow:auto; white-space:pre-wrap; margin:14px 0 0; padding:12px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.24); color:var(--text); font:13px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;}
+  .managerModal{max-width:980px;}
+  .modalTitleRow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,173,95,.16);}
+  .managerControls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.45fr) auto auto; gap:10px; align-items:center; margin:14px 0;}
+  .managerControls .tool{width:100%;}
+  .managerTableWrap{max-height:60vh; overflow:auto; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.12);}
+  .managerModal table{display:table; overflow:initial;}
+  .managerActions{display:flex; justify-content:flex-end; gap:6px; flex-wrap:wrap;}
+  .statusPill{display:inline-flex; align-items:center; white-space:nowrap; padding:3px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:rgba(247,241,231,.78); font-size:11px;}
+  .statusPill.source{border-color:rgba(213,173,95,.22); color:rgba(247,241,231,.72);}
+  .statusPill.override{border-color:rgba(213,173,95,.45); background:rgba(213,173,95,.12); color:var(--accent);}
+  .statusPill.custom{border-color:rgba(99,215,173,.42); background:rgba(99,215,173,.10); color:var(--accent2);}
   .hint{font-size:12px; color:rgba(247,241,231,.62);}
   .iconBtn{cursor:pointer; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); padding:6px 8px; border-radius:10px; font-size:12px;}
   .iconBtn:hover{background:rgba(255,255,255,.06);}
@@ -190,6 +201,20 @@
     .modal #ingredientRows td:nth-child(4)::before{content:"Hide in final list"; margin-right:8px; color:var(--muted); font-size:12px;}
     .modal #ingredientRows td:nth-child(5){grid-column:3; grid-row:2 / 4; align-self:center;}
     .modal #ingredientRows .tool{width:100% !important;}
+    .modalTitleRow{flex-direction:column; align-items:stretch;}
+    .managerControls{grid-template-columns:1fr;}
+    .managerTableWrap{max-height:58vh; overflow:auto;}
+    .managerModal #recipeManagerTable{display:block; min-width:0;}
+    .managerModal thead{display:none;}
+    .managerModal tbody{display:grid; gap:0;}
+    .managerModal tr{display:grid; grid-template-columns:1fr auto; gap:7px 10px; padding:12px 10px; border-bottom:1px solid var(--line);}
+    .managerModal td{display:block; border:0; padding:0;}
+    .managerModal td:nth-child(1){grid-column:1 / -1;}
+    .managerModal td:nth-child(2){grid-column:1; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .managerModal td:nth-child(3){grid-column:1; text-align:left; color:var(--muted); font-size:12px;}
+    .managerModal td:nth-child(3)::after{content:" ingredients";}
+    .managerModal td:nth-child(4){grid-column:1;}
+    .managerModal td:nth-child(5){grid-column:2; grid-row:2 / 5; align-self:end;}
     .previewStats{grid-template-columns:repeat(2,minmax(0,1fr));}
     .previewStats div:last-child{grid-column:1 / -1;}
   }

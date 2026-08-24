@@ -140,6 +140,9 @@ function ensureIds(){
 
 // Custom prebatches
 const CUSTOM_KEY = 'customPrebatches';
+function isCustomPrebatch(pb){
+  return !!pb?.isCustom;
+}
 function loadCustomPrebatches(){
   const stored = localStorage.getItem(CUSTOM_KEY);
   if (!stored) return;
@@ -149,6 +152,7 @@ function loadCustomPrebatches(){
       parsed.forEach(p => {
         if (!p._id) p._id = makeId();
         if (!p.sheet) p.sheet = 'Custom';
+        p.isCustom = true;
         (p.ingredients||[]).forEach(ing => { if (ing.bottleSizeCl === undefined) ing.bottleSizeCl = null; });
       });
       DATA.prebatches.push(...parsed);
@@ -156,7 +160,7 @@ function loadCustomPrebatches(){
   } catch(e) {}
 }
 function saveCustomPrebatches(){
-  const custom = (DATA.prebatches||[]).filter(p => p.sheet === 'Custom');
+  const custom = (DATA.prebatches||[]).filter(isCustomPrebatch);
   localStorage.setItem(CUSTOM_KEY, JSON.stringify(custom));
 }
 
@@ -192,12 +196,13 @@ function savePrebatchNotes(){
 loadPrebatchNotes();
 
 function getEffectivePrebatch(pb){
-  if (!pb || pb.sheet === 'Custom') return pb;
+  if (!pb || isCustomPrebatch(pb)) return pb;
   const ov = prebatchOverrides[pb._id];
   if (!ov) return pb;
   return {
     ...pb,
     name: ov.name ?? pb.name,
+    sheet: ov.sheet ?? pb.sheet,
     ingredients: (ov.ingredients ?? pb.ingredients).map(i => ({
       name: i.name,
       clPerBatch: Number(i.clPerBatch)||0,
@@ -222,6 +227,9 @@ function doesOverrideMatchBase(pbRaw, ov){
   const baseName = String(pbRaw.name || '').trim();
   const ovName = String(ov.name ?? baseName).trim();
   if (baseName !== ovName) return false;
+  const baseSheet = String(pbRaw.sheet || 'Custom').trim();
+  const ovSheet = String(ov.sheet ?? baseSheet).trim();
+  if (baseSheet !== ovSheet) return false;
 
   const baseIngredients = (pbRaw.ingredients || []).map(normalizeOverrideIngredient);
   const ovIngredients = (ov.ingredients ?? pbRaw.ingredients ?? []).map(normalizeOverrideIngredient);
@@ -241,7 +249,7 @@ function doesOverrideMatchBase(pbRaw, ov){
 function pruneResolvedOverrides(){
   let changed = false;
   (DATA.prebatches || []).forEach(pbRaw => {
-    if (!pbRaw || pbRaw.sheet === 'Custom') return;
+    if (!pbRaw || isCustomPrebatch(pbRaw)) return;
     const ov = prebatchOverrides[pbRaw._id];
     if (!ov) return;
     if (doesOverrideMatchBase(pbRaw, ov)) {
@@ -323,6 +331,7 @@ const dataSourceInfoEl = document.getElementById('dataSourceInfo');
 const state = new Map();
 const searchEl = document.getElementById('search');
 const departmentFilterEl = document.getElementById('departmentFilter');
+const departmentOptionsEl = document.getElementById('departmentOptions');
 const activeOnlyEl = document.getElementById('activeOnly');
 const ingBottleSizeEl = document.getElementById('ingredientBottleSize');
 const finBottleSizeEl = document.getElementById('finishedBottleSize');
@@ -376,33 +385,55 @@ function getActivePrebatchCount(){
   return (DATA.prebatches || []).filter(isActivePrebatch).length;
 }
 
+function normalizeDepartmentName(value){
+  return String(value || '').replace(/\s+/g, ' ').trim() || 'Custom';
+}
+
+function getPrebatchDepartment(pbRaw){
+  const pb = getEffectivePrebatch(pbRaw);
+  return normalizeDepartmentName(pb?.sheet || pbRaw?.sheet || 'Custom');
+}
+
 function getDepartments(){
-  return Array.from(new Set((DATA.prebatches || []).map(pb => String(pb.sheet || 'Custom').trim()).filter(Boolean)))
+  return Array.from(new Set((DATA.prebatches || []).map(getPrebatchDepartment).filter(Boolean)))
     .sort((a,b) => a.localeCompare(b));
 }
 
 function updateDepartmentOptions(){
-  if (!departmentFilterEl) return;
   const departments = getDepartments();
-  departmentFilterEl.innerHTML = '';
-  departmentFilterEl.appendChild(new Option('All departments', ''));
-  departments.forEach(department => departmentFilterEl.appendChild(new Option(department, department)));
-  if (selectedDepartment && !departments.includes(selectedDepartment)) selectedDepartment = '';
-  departmentFilterEl.value = selectedDepartment;
+  if (departmentFilterEl) {
+    departmentFilterEl.innerHTML = '';
+    departmentFilterEl.appendChild(new Option('All departments', ''));
+    departments.forEach(department => departmentFilterEl.appendChild(new Option(department, department)));
+    if (selectedDepartment && !departments.includes(selectedDepartment)) {
+      selectedDepartment = '';
+      localStorage.setItem(DEPARTMENT_FILTER_KEY, selectedDepartment);
+    }
+    departmentFilterEl.value = selectedDepartment;
+  }
+  if (departmentOptionsEl) {
+    departmentOptionsEl.innerHTML = '';
+    departments.forEach(department => {
+      const option = document.createElement('option');
+      option.value = department;
+      departmentOptionsEl.appendChild(option);
+    });
+  }
 }
 
 function getFilteredPrebatches(){
   const q = (searchEl.value || '').trim().toLowerCase();
   return DATA.prebatches
     .slice()
-    .sort((a,b)=> (a.sheet+' '+a.name).localeCompare(b.sheet+' '+b.name))
-    .filter(pbRaw => !selectedDepartment || String(pbRaw.sheet || 'Custom') === selectedDepartment)
+    .sort((a,b)=> (getPrebatchDepartment(a)+' '+getEffectivePrebatch(a).name).localeCompare(getPrebatchDepartment(b)+' '+getEffectivePrebatch(b).name))
+    .filter(pbRaw => !selectedDepartment || getPrebatchDepartment(pbRaw) === selectedDepartment)
     .filter(pbRaw => !activeOnlyEnabled || isActivePrebatch(pbRaw))
     .filter(pbRaw => {
       if (!q) return true;
       const overrideName = (prebatchOverrides[pbRaw._id]?.name || '').toLowerCase();
+      const department = getPrebatchDepartment(pbRaw).toLowerCase();
       const ingredients = (getEffectivePrebatch(pbRaw)?.ingredients || []).map(i => String(i.name || '').toLowerCase()).join(' ');
-      return String(pbRaw.name || '').toLowerCase().includes(q) || overrideName.includes(q) || ingredients.includes(q);
+      return String(pbRaw.name || '').toLowerCase().includes(q) || overrideName.includes(q) || department.includes(q) || ingredients.includes(q);
     });
 }
 
@@ -442,8 +473,9 @@ function renderPrebatches(){
 
       const bpb = bottlesPerBatch(pb, finBottleSize);
       const batchTotal = (pb.ingredients||[]).reduce((s,i)=>s+(Number(i.clPerBatch)||0),0);
+      const department = getPrebatchDepartment(pbRaw);
 
-      const isCustom = pbRaw.sheet === 'Custom';
+      const isCustom = isCustomPrebatch(pbRaw);
 
       const badge = (pb._override) ? '<span class="badge">override</span>' : '';
 
@@ -455,7 +487,7 @@ function renderPrebatches(){
           <button class="nameBtn" data-edit-mode="${isCustom ? 'edit-custom' : 'edit-override'}" data-edit-id="${escapeAttr(id)}" title="Edit prebatch">
             <span class="name nameTxt">${escapeHtml(pb.name)}${badge}</span>
           </button>
-          <div class="sub mono">Batch total: ${batchTotal.toFixed(0)} cl</div>
+          <div class="sub">${escapeHtml(department)} · Batch total: <span class="mono">${batchTotal.toFixed(0)} cl</span></div>
         </td>
         <td class="advancedCol">
           <input class="tool noteInp" type="text" maxlength="140" placeholder="Prep note..." value="${escapeAttr(note)}" data-note-id="${escapeAttr(id)}" />
@@ -566,7 +598,7 @@ function renderIngredients(){
     totalBatches += batches;
     const madeBottles = batches * bottlesPerBatch(pb, finBottleSize);
     totalFinishedBottles += madeBottles;
-    madeLines.push(`${pb.name}:   ${madeBottles.toFixed(2)} bottles`);
+    madeLines.push(`${getPrebatchDepartment(pbRaw)} / ${pb.name}:   ${madeBottles.toFixed(2)} bottles`);
 
     (pb.ingredients||[]).forEach(ing => {
       const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
@@ -730,7 +762,7 @@ function getShoppingListText(){
     const totalClPerBatch = (pb.ingredients||[]).reduce((s,i)=>s+(Number(i.clPerBatch)||0),0);
     const bottlesMade = (totalClPerBatch/finBottleSize) * batches;
     const note = prebatchNotes[id] ? ` [Note: ${prebatchNotes[id]}]` : '';
-    pbLines.push(`${pb.name}: ${batches.toFixed(2)} batches = ${bottlesMade.toFixed(2)} bottles${note}`);
+    pbLines.push(`${getPrebatchDepartment(pbRaw)} / ${pb.name}: ${batches.toFixed(2)} batches = ${bottlesMade.toFixed(2)} bottles${note}`);
 
     (pb.ingredients||[]).forEach(ing => {
       const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
@@ -783,6 +815,7 @@ const ingredientRows = document.getElementById('ingredientRows');
 const modalTitle = document.getElementById('modalTitle');
 const modalHint = document.getElementById('modalHint');
 const deleteInModal = document.getElementById('deleteInModal');
+const pbDepartmentInput = document.getElementById('pbDepartment');
 
 let modalMode = 'add';
 let editingId = null;
@@ -814,6 +847,7 @@ function openModal(mode, id=null){
     deleteInModal.style.display='none';
     deleteInModal.textContent='Delete';
     document.getElementById('pbName').value='';
+    pbDepartmentInput.value = selectedDepartment || 'Custom';
     clearIngredientRows();
     addIngredientRow();
     return;
@@ -823,25 +857,27 @@ function openModal(mode, id=null){
   if (!pbRaw){ closeModal(); return; }
 
   if (mode === 'edit-custom'){
-    if (pbRaw.sheet !== 'Custom'){ alert('Only Custom prebatches can be edited here.'); closeModal(); return; }
+    if (!isCustomPrebatch(pbRaw)){ alert('Only Custom prebatches can be edited here.'); closeModal(); return; }
     modalTitle.textContent = 'Edit custom prebatch';
     modalHint.textContent = 'Edits the Custom prebatch saved on this device.';
     deleteInModal.style.display='inline-block';
     deleteInModal.textContent='Delete';
     document.getElementById('pbName').value = pbRaw.name;
+    pbDepartmentInput.value = getPrebatchDepartment(pbRaw);
     clearIngredientRows();
     (pbRaw.ingredients||[]).forEach(i => addIngredientRow(i.name, i.clPerBatch, i.bottleSizeCl||'', !!i.hideInFinalList));
     return;
   }
 
   if (mode === 'edit-override'){
-    if (pbRaw.sheet === 'Custom'){ alert('Custom prebatches are edited as Custom.'); closeModal(); return; }
+    if (isCustomPrebatch(pbRaw)){ alert('Custom prebatches are edited as Custom.'); closeModal(); return; }
     const pb = getEffectivePrebatch(pbRaw);
     modalTitle.textContent = 'Edit Excel prebatch (local override)';
     modalHint.textContent = 'This creates/updates a local override. The JSON source file is not changed.';
     deleteInModal.style.display = prebatchOverrides[pbRaw._id] ? 'inline-block' : 'none';
     deleteInModal.textContent='Reset override';
     document.getElementById('pbName').value = pb.name;
+    pbDepartmentInput.value = getPrebatchDepartment(pbRaw);
     clearIngredientRows();
     (pb.ingredients||[]).forEach(i => addIngredientRow(i.name, i.clPerBatch, i.bottleSizeCl||'', !!i.hideInFinalList));
     return;
@@ -852,7 +888,7 @@ function closeModal(){ modalBack.style.display='none'; }
 
 function deleteCustomPrebatch(id){
   const pb = DATA.prebatches.find(x => x._id === id);
-  if (!pb || pb.sheet !== 'Custom') return;
+  if (!pb || !isCustomPrebatch(pb)) return;
   if (!confirm(`Delete custom prebatch "${pb.name}"?`)) return;
   DATA.prebatches = DATA.prebatches.filter(x => x._id !== id);
   state.delete(id);
@@ -865,11 +901,12 @@ function deleteCustomPrebatch(id){
 
 function resetOverride(id){
   const pb = DATA.prebatches.find(x => x._id === id);
-  if (!pb || pb.sheet === 'Custom') return;
+  if (!pb || isCustomPrebatch(pb)) return;
   if (!prebatchOverrides[pb._id]) return;
   if (!confirm(`Reset override for "${pb.name}"?`)) return;
   delete prebatchOverrides[pb._id];
   savePrebatchOverrides();
+  updateDepartmentOptions();
   renderPrebatches();
   renderIngredients();
 }
@@ -889,6 +926,7 @@ deleteInModal.addEventListener('click', () => {
   } else if (modalMode === 'edit-override'){
     delete prebatchOverrides[editingId];
     savePrebatchOverrides();
+    updateDepartmentOptions();
     closeModal();
     renderPrebatches();
     renderIngredients();
@@ -897,6 +935,7 @@ deleteInModal.addEventListener('click', () => {
 
 document.getElementById('savePrebatch').addEventListener('click', ()=>{
   const name = (document.getElementById('pbName').value || '').trim();
+  const department = normalizeDepartmentName(pbDepartmentInput.value);
   if (!name){ alert('Prebatch name is required'); return; }
 
   const ingredients=[];
@@ -915,7 +954,7 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
     const lower = name.toLowerCase();
     const dup = DATA.prebatches.some(p => (p.name||'').toLowerCase()===lower);
     if (dup){ alert('A prebatch with this name already exists. Use a different name.'); return; }
-    const newPB = { _id: makeId(), name, sheet:'Custom', ingredients };
+    const newPB = { _id: makeId(), name, sheet: department, isCustom: true, ingredients };
     DATA.prebatches.push(newPB);
     saveCustomPrebatches();
     updateDepartmentOptions();
@@ -928,13 +967,16 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
 
   if (modalMode === 'edit-custom'){
     const pb = DATA.prebatches.find(x => x._id === editingId);
-    if (!pb || pb.sheet !== 'Custom'){ alert('Only Custom prebatches can be edited.'); return; }
+    if (!pb || !isCustomPrebatch(pb)){ alert('Only Custom prebatches can be edited.'); return; }
     const lower = name.toLowerCase();
     const dup = DATA.prebatches.some(p => p._id !== pb._id && (p.name||'').toLowerCase()===lower);
     if (dup){ alert('A prebatch with this name already exists. Use a different name.'); return; }
     pb.name = name;
+    pb.sheet = department;
+    pb.isCustom = true;
     pb.ingredients = ingredients;
     saveCustomPrebatches();
+    updateDepartmentOptions();
     closeModal();
     renderPrebatches();
     renderIngredients();
@@ -943,9 +985,10 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
 
   if (modalMode === 'edit-override'){
     const pb = DATA.prebatches.find(x => x._id === editingId);
-    if (!pb || pb.sheet === 'Custom'){ alert('Only Excel prebatches use overrides.'); return; }
-    prebatchOverrides[pb._id] = { name, ingredients };
+    if (!pb || isCustomPrebatch(pb)){ alert('Only Excel prebatches use overrides.'); return; }
+    prebatchOverrides[pb._id] = { name, sheet: department, ingredients };
     savePrebatchOverrides();
+    updateDepartmentOptions();
     closeModal();
     renderPrebatches();
     renderIngredients();
@@ -1028,7 +1071,7 @@ if (mReset) mReset.addEventListener('click', () => document.getElementById('rese
 
 
 function getCustomPrebatchesForExport(){
-  return (DATA.prebatches || []).filter(p => p.sheet === 'Custom');
+  return (DATA.prebatches || []).filter(isCustomPrebatch);
 }
 
 function sanitizeImportedOverrides(input){
@@ -1037,6 +1080,7 @@ function sanitizeImportedOverrides(input){
   Object.entries(input).forEach(([id, ov]) => {
     if (!id || !ov || typeof ov !== 'object') return;
     const name = String(ov.name || '').trim();
+    const sheet = ov.sheet === undefined ? null : normalizeDepartmentName(ov.sheet);
     const ingredientsRaw = Array.isArray(ov.ingredients) ? ov.ingredients : [];
     const ingredients = ingredientsRaw
       .map(i => ({
@@ -1047,7 +1091,7 @@ function sanitizeImportedOverrides(input){
       }))
       .filter(i => i.name && i.clPerBatch > 0);
     if (!name || !ingredients.length) return;
-    out[id] = { name, ingredients };
+    out[id] = sheet ? { name, sheet, ingredients } : { name, ingredients };
   });
   return out;
 }
@@ -1090,7 +1134,8 @@ function sanitizeImportedCustomPrebatches(input){
     return {
       _id: p?._id ? String(p._id) : makeId(),
       name,
-      sheet: 'Custom',
+      sheet: normalizeDepartmentName(p?.sheet),
+      isCustom: true,
       ingredients
     };
   }).filter(Boolean);
@@ -1108,7 +1153,7 @@ function buildCompleteDataExportPayload(){
     const totalClPerBatch = ingredients.reduce((s, i) => s + i.clPerBatch, 0);
     return {
       name: pb.name,
-      sheet: pbRaw.sheet || pb.sheet || 'Custom',
+      sheet: getPrebatchDepartment(pbRaw),
       cocktailsPerBatch: (pb.cocktailsPerBatch ?? null),
       ingredients,
       totalClPerBatch,
@@ -1144,22 +1189,24 @@ function downloadSettingsFile(){
 }
 
 function mergeCustomPrebatches(imported){
-  const existing = DATA.prebatches.filter(p => p.sheet === 'Custom');
+  const existing = DATA.prebatches.filter(isCustomPrebatch);
   const byName = new Map(existing.map(p => [String(p.name || '').toLowerCase(), p]));
   imported.forEach(p => {
     const key = p.name.toLowerCase();
     if (byName.has(key)) {
       const target = byName.get(key);
+      target.sheet = normalizeDepartmentName(p.sheet);
+      target.isCustom = true;
       target.ingredients = p.ingredients;
     } else {
-      DATA.prebatches.push({ ...p, _id: p._id || makeId(), sheet: 'Custom' });
+      DATA.prebatches.push({ ...p, _id: p._id || makeId(), sheet: normalizeDepartmentName(p.sheet), isCustom: true });
     }
   });
 }
 
 function replaceCustomPrebatches(imported){
-  DATA.prebatches = DATA.prebatches.filter(p => p.sheet !== 'Custom');
-  imported.forEach(p => DATA.prebatches.push({ ...p, _id: p._id || makeId(), sheet: 'Custom' }));
+  DATA.prebatches = DATA.prebatches.filter(p => !isCustomPrebatch(p));
+  imported.forEach(p => DATA.prebatches.push({ ...p, _id: p._id || makeId(), sheet: normalizeDepartmentName(p.sheet), isCustom: true }));
 }
 
 function applyImportedSettings(raw){

@@ -1245,6 +1245,11 @@ document.getElementById('managerAddPrebatch')?.addEventListener('click', () => {
   closeRecipeManager();
   openModal('add');
 });
+document.getElementById('managerImportJson')?.addEventListener('click', () => {
+  const inp = document.getElementById('importSettingsFile');
+  inp.value = '';
+  inp.click();
+});
 document.getElementById('managerExportJson')?.addEventListener('click', downloadSettingsFile);
 
 deleteInModal.addEventListener('click', () => {
@@ -1351,16 +1356,6 @@ if (activeOnlyEl) {
 }
 [ingBottleSizeEl, finBottleSizeEl].forEach(el => el.addEventListener('input', () => { renderPrebatches(); renderIngredients(); }));
 
-
-document.getElementById('exportSettings').addEventListener('click', () => {
-  downloadSettingsFile();
-});
-
-document.getElementById('importSettings').addEventListener('click', () => {
-  const inp = document.getElementById('importSettingsFile');
-  inp.value = '';
-  inp.click();
-});
 
 document.getElementById('importSettingsFile').addEventListener('change', async (e) => {
   const file = e.target.files && e.target.files[0];

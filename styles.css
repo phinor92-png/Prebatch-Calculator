@@ -8,6 +8,8 @@
   h2{margin:0; font-size:18px;}
   p{margin:0 0 16px; color:var(--muted);}
   .appHeader p{margin-bottom:6px;}
+  .headerSide{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+  .headerManagerBtn{min-height:40px; padding:9px 12px;}
   .headerStats{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
   .headerStats div{min-width:86px; padding:10px 12px; border:1px solid rgba(213,173,95,.24); background:linear-gradient(180deg,rgba(213,173,95,.10),rgba(18,56,47,.14)); border-radius:8px; text-align:right;}
   .headerStats span{display:block; font-size:22px; font-weight:800; line-height:1;}
@@ -41,13 +43,14 @@
     .wrap{margin:12px auto; padding:0 10px 24px;}
     .appHeader{align-items:stretch; flex-direction:column; gap:10px;}
     h1{font-size:20px;}
+    .headerSide{align-items:stretch; gap:8px;}
+    .headerManagerBtn{align-self:flex-start; min-height:40px;}
     .headerStats{justify-content:stretch;}
     .headerStats div{flex:1; text-align:left;}
-    .toolbar{margin:8px 0 10px; gap:8px;}
-    .toolbarActions{display:grid; grid-template-columns:1fr; gap:8px;}
-    .toolbarActions #reset,
-    .toolbarActions #copy{display:none !important;}
-    .toolbarActions #recipeManagerBtn{width:100%; min-height:44px;}
+    .toolbar{display:none;}
+    .grid{margin-top:10px;}
+    .sectionHead h2{font-size:20px;}
+    .sessionInfo{margin-top:8px;}
     .settingField{grid-template-columns:1fr; gap:5px; min-height:0; padding:9px 10px;}
     .settingField span{font-size:11px; color:var(--muted);}
     .settingField small{display:none;}
@@ -143,6 +146,7 @@
   .sheetPreview{box-sizing:border-box; max-height:55vh; overflow:auto; white-space:pre-wrap; margin:14px 0 0; padding:12px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.24); color:var(--text); font:13px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;}
   .managerModal{max-width:980px;}
   .modalTitleRow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,173,95,.16);}
+  .managerSource{margin-top:4px;}
   .managerSettings{display:grid; grid-template-columns:repeat(2,minmax(190px,220px)) auto auto; gap:10px; align-items:center; margin:14px 0 0;}
   .managerSettings .btn{min-height:44px;}
   .managerControls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.45fr) auto auto auto; gap:10px; align-items:center; margin:14px 0;}

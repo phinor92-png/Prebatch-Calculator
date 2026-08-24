@@ -25,11 +25,13 @@
     <div>
       <h1>Pre-Batch Calculator <span class="versionPill">V2</span></h1>
       <p>Plan production, review the sheet, then copy or print from one place.</p>
-      <p id="dataSourceInfo" class="small"></p>
     </div>
-    <div class="headerStats">
-      <div><span id="countTotal">0</span><small>Recipes</small></div>
-      <div><span id="countActive">0</span><small>Active</small></div>
+    <div class="headerSide">
+      <button class="btn secondary headerManagerBtn" id="recipeManagerBtn">Recipe manager</button>
+      <div class="headerStats">
+        <div><span id="countTotal">0</span><small>Recipes</small></div>
+        <div><span id="countActive">0</span><small>Active</small></div>
+      </div>
     </div>
   </header>
   <div id="printMeta" class="printOnly small"></div>
@@ -38,7 +40,6 @@
     <div class="toolbarActions">
       <button class="btn" id="reset">Clear production</button>
       <button class="btn primary reviewBtn" id="copy">Review production sheet</button>
-      <button class="btn secondary" id="recipeManagerBtn">Recipe manager</button>
     </div>
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
   </div>
@@ -132,6 +133,7 @@
       <div>
         <h2>Recipe manager</h2>
         <div id="recipeManagerStats" class="hint"></div>
+        <div id="dataSourceInfo" class="hint managerSource"></div>
       </div>
       <button class="iconBtn" id="closeRecipeManager">Close</button>
     </div>

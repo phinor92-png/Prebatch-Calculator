@@ -313,19 +313,10 @@ loadHiddenIngredients();
 const SETTINGS_SCHEMA_VERSION = 1;
 
 let showHidden = false;
-const ADVANCED_VIEW_KEY = 'advancedViewEnabled';
-let advancedViewEnabled = localStorage.getItem(ADVANCED_VIEW_KEY) === '1';
 const DEPARTMENT_FILTER_KEY = 'departmentFilter';
 const ACTIVE_ONLY_KEY = 'activeOnlyEnabled';
 let selectedDepartment = localStorage.getItem(DEPARTMENT_FILTER_KEY) || '';
 let activeOnlyEnabled = localStorage.getItem(ACTIVE_ONLY_KEY) === '1';
-if (advancedViewEnabled) document.body.classList.add('showAdvanced');
-function updateAdvancedButtonLabel(){
-  const btn = document.getElementById('toggleAdvanced');
-  if (btn) btn.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
-  const mb = document.getElementById('mobileAdvancedToggle');
-  if (mb) mb.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
-}
 
 const dataSourceInfoEl = document.getElementById('dataSourceInfo');
 
@@ -1372,19 +1363,6 @@ if (printSheetBtn) printSheetBtn.addEventListener('click', openSheetPreview);
 document.getElementById('reloadData').addEventListener('click', () => {
   reloadDataFromJsonAtRuntime();
 });
-document.getElementById('toggleAdvanced').addEventListener('click', () => {
-  advancedViewEnabled = !advancedViewEnabled;
-  document.body.classList.toggle('showAdvanced', advancedViewEnabled);
-  localStorage.setItem(ADVANCED_VIEW_KEY, advancedViewEnabled ? '1' : '0');
-  updateAdvancedButtonLabel();
-  renderPrebatches();
-});
-const mobileAdvancedToggle = document.getElementById('mobileAdvancedToggle');
-if (mobileAdvancedToggle) {
-  mobileAdvancedToggle.addEventListener('click', () => {
-    document.getElementById('toggleAdvanced').click();
-  });
-}
 document.getElementById('reset').addEventListener('click', () => {
   const counts = getProductionSessionCounts();
   if ((counts.activeRecipes > 0 || counts.notes > 0) && !confirm('Clear all entered batches and prep notes for this production session?')) return;
@@ -1675,7 +1653,6 @@ async function handleSettingsImportFile(file){
 document.getElementById('copy').addEventListener('click', openSheetPreview);
 
 async function initializeApp(){
-  updateAdvancedButtonLabel();
   updateRecipeCount();
   updateDataSourceInfo();
 

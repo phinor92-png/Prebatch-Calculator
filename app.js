@@ -407,7 +407,7 @@ function updateProductionSessionInfo(){
   const counts = getProductionSessionCounts();
   const hasSession = counts.activeRecipes > 0 || counts.notes > 0;
   if (!hasSession) {
-    productionSessionInfoEl.textContent = 'No saved production session.';
+    productionSessionInfoEl.textContent = "Ready for today's production.";
     productionSessionInfoEl.classList.remove('hasSession');
     return;
   }
@@ -415,7 +415,7 @@ function updateProductionSessionInfo(){
   if (counts.activeRecipes > 0) parts.push(`${counts.activeRecipes} active`, `${counts.batches.toFixed(2)} batches`);
   if (counts.notes > 0) parts.push(`${counts.notes} prep note${counts.notes === 1 ? '' : 's'}`);
   const saved = formatSessionTime(productionSessionUpdatedAt);
-  productionSessionInfoEl.textContent = `Saved production session: ${parts.join(' · ')}${saved ? ` · Last saved ${saved}` : ''}`;
+  productionSessionInfoEl.textContent = `Production restored: ${parts.join(' · ')}${saved ? ` · Last saved ${saved}` : ''}`;
   productionSessionInfoEl.classList.add('hasSession');
 }
 

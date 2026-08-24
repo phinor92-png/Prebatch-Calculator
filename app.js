@@ -529,7 +529,15 @@ function getActivePrebatchCount(){
 }
 
 function normalizeDepartmentName(value){
-  return String(value || '').replace(/\s+/g, ' ').trim() || 'Custom';
+  const department = String(value || '').replace(/\s+/g, ' ').trim() || 'Custom';
+  const key = department.toLowerCase().replace(/[-_]+/g, ' ');
+  const legacyAliases = {
+    'prebatch calculator mal': 'Britannia Bar Menu',
+    'pre batch calculator mal': 'Britannia Bar Menu',
+    'prebatch calculator model': 'Britannia Bar Menu',
+    'pre batch calculator model': 'Britannia Bar Menu'
+  };
+  return legacyAliases[key] || department;
 }
 
 function getPrebatchDepartment(pbRaw){
@@ -1245,7 +1253,8 @@ document.getElementById('importSettingsFile').addEventListener('change', async (
   }
 });
 
-document.getElementById('printSheet').addEventListener('click', openSheetPreview);
+const printSheetBtn = document.getElementById('printSheet');
+if (printSheetBtn) printSheetBtn.addEventListener('click', openSheetPreview);
 document.getElementById('reloadData').addEventListener('click', () => {
   reloadDataFromJsonAtRuntime();
 });

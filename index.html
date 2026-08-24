@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Prebatch Calculator</title>
+<title>Pre-Batch Calculator V2</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -23,8 +23,8 @@
 <div class="wrap">
   <header class="appHeader">
     <div>
-      <h1>Prebatch Calculator</h1>
-      <p>Plan production, print prep sheets, and copy ingredient totals.</p>
+      <h1>Pre-Batch Calculator <span class="versionPill">V2</span></h1>
+      <p>Plan production, review the sheet, then copy or print from one place.</p>
       <p id="dataSourceInfo" class="small"></p>
     </div>
     <div class="headerStats">
@@ -39,8 +39,7 @@
     <label class="tag advancedOnly">Finished bottle size (cl): <input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
     <button class="btn secondary advancedOnly" id="addPrebatchBtn">+ Add new prebatch</button>
     <button class="btn" id="reset">Clear production</button>
-    <button class="btn primary" id="copy">Copy production sheet</button>
-    <button class="btn primary" id="printSheet">Print</button>
+    <button class="btn primary reviewBtn" id="copy">Review production sheet</button>
     <button class="btn muted advancedOnly" id="reloadData">Reload</button>
     <button class="btn muted advancedOnly" id="exportSettings">Export</button>
     <button class="btn muted advancedOnly" id="importSettings">Import</button>
@@ -48,8 +47,7 @@
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
   </div>
   <div class="mobileBar">
-    <button class="btn primary" id="mCopy">Copy sheet</button>
-    <button class="btn primary" id="mPrint">Print</button>
+    <button class="btn primary" id="mCopy">Review sheet</button>
     <button class="btn" id="mReset">Clear</button>
   </div>
 

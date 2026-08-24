@@ -12,7 +12,11 @@
   .headerStats div{min-width:86px; padding:10px 12px; border:1px solid rgba(213,173,95,.24); background:linear-gradient(180deg,rgba(213,173,95,.10),rgba(18,56,47,.14)); border-radius:8px; text-align:right;}
   .headerStats span{display:block; font-size:22px; font-weight:800; line-height:1;}
   .headerStats small{display:block; margin-top:5px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.04em;}
-  .toolbar{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:14px 0 18px;}
+  .toolbar{display:grid; gap:10px; margin:14px 0 18px;}
+  .toolbarActions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .settingField{box-sizing:border-box; display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:8px; min-height:44px; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:rgba(255,255,255,.035); color:rgba(247,241,231,.82); font-size:12px;}
+  .settingField span{white-space:nowrap;}
+  .settingField small{color:var(--muted);}
   .card{box-sizing:border-box; background:linear-gradient(180deg,rgba(31,30,27,.96),rgba(22,24,20,.96)); border:1px solid rgba(213,173,95,.16); border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,.32);}
   .tool{box-sizing:border-box; color-scheme:dark; padding:12px 14px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,.045); color:var(--text); outline:none;}
   .tool:focus{border-color:rgba(213,173,95,.55); box-shadow:0 0 0 3px rgba(213,173,95,.10);}
@@ -39,21 +43,20 @@
     h1{font-size:20px;}
     .headerStats{justify-content:stretch;}
     .headerStats div{flex:1; text-align:left;}
-    .toolbar{gap:8px;}
-    .toolbar .tool,
-    .toolbar .btn,
-    .toolbar .tag{width:100%;}
-    .toolbar .tag{display:block; box-sizing:border-box;}
-    .toolbar .tag.advancedOnly{display:none !important;}
-    .showAdvanced .toolbar .tag.advancedOnly{display:block !important;}
-    .toolbar .btn.advancedOnly{display:none !important;}
-    .showAdvanced .toolbar .btn.advancedOnly{display:block !important;}
+    .toolbar{margin:8px 0 10px; gap:8px;}
+    .toolbarActions{display:grid; grid-template-columns:1fr; gap:8px;}
+    .toolbarActions #reset,
+    .toolbarActions #copy{display:none !important;}
+    .toolbarActions #recipeManagerBtn{width:100%; min-height:44px;}
+    .settingField{grid-template-columns:1fr; gap:5px; min-height:0; padding:9px 10px;}
+    .settingField span{font-size:11px; color:var(--muted);}
+    .settingField small{display:none;}
+    .settingField .tool{width:100%; text-align:left;}
     .filterBar{grid-template-columns:1fr;}
     .toggleLine{height:auto; min-height:43px;}
     .summaryItem{display:block;}
     .summaryItem strong{display:block; margin-top:4px; text-align:left;}
-    #reset,#copy,#printSheet,#toggleAdvanced{display:none !important;}
-    .toolbar .tag input{width:100%; box-sizing:border-box;}
+    #printSheet{display:none !important;}
     .btn{padding:12px 14px; font-size:14px;}
     .tool{padding:12px 12px; font-size:15px;}
     .inp{width:84px;}
@@ -123,7 +126,7 @@
   .kpi .lbl{font-size:12px; color:var(--muted);}
 
   /* Modal */
-  .modalBack{display:none; position:fixed; inset:0; overflow:auto; background:rgba(0,0,0,.6); z-index:50;}
+  .modalBack{display:none; position:fixed; inset:0; overflow:auto; background:rgba(0,0,0,.6); z-index:230;}
   .modal{box-sizing:border-box; background:rgba(25,24,22,.98); border:1px solid var(--line); border-radius:8px; box-shadow:0 20px 50px rgba(0,0,0,.6); width:min(900px, calc(100vw - 20px)); margin:56px auto; padding:16px;}
   .modal h2{margin:4px 0 10px; font-size:18px;}
   .modal h3{margin:12px 0 8px; font-size:14px; color:rgba(247,241,231,.82);}
@@ -138,6 +141,19 @@
   .previewStats span{display:block; color:var(--text); font-weight:800; font-size:17px; line-height:1;}
   .previewStats small{display:block; margin-top:5px; color:var(--muted); font-size:11px;}
   .sheetPreview{box-sizing:border-box; max-height:55vh; overflow:auto; white-space:pre-wrap; margin:14px 0 0; padding:12px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.24); color:var(--text); font:13px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;}
+  .managerModal{max-width:980px;}
+  .modalTitleRow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,173,95,.16);}
+  .managerSettings{display:grid; grid-template-columns:repeat(2,minmax(190px,220px)) auto auto; gap:10px; align-items:center; margin:14px 0 0;}
+  .managerSettings .btn{min-height:44px;}
+  .managerControls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.45fr) auto auto auto; gap:10px; align-items:center; margin:14px 0;}
+  .managerControls .tool{width:100%;}
+  .managerTableWrap{max-height:60vh; overflow:auto; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.12);}
+  .managerModal table{display:table; overflow:initial;}
+  .managerActions{display:flex; justify-content:flex-end; gap:6px; flex-wrap:wrap;}
+  .statusPill{display:inline-flex; align-items:center; white-space:nowrap; padding:3px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:rgba(247,241,231,.78); font-size:11px;}
+  .statusPill.source{border-color:rgba(213,173,95,.22); color:rgba(247,241,231,.72);}
+  .statusPill.override{border-color:rgba(213,173,95,.45); background:rgba(213,173,95,.12); color:var(--accent);}
+  .statusPill.custom{border-color:rgba(99,215,173,.42); background:rgba(99,215,173,.10); color:var(--accent2);}
   .hint{font-size:12px; color:rgba(247,241,231,.62);}
   .iconBtn{cursor:pointer; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); padding:6px 8px; border-radius:10px; font-size:12px;}
   .iconBtn:hover{background:rgba(255,255,255,.06);}
@@ -146,10 +162,7 @@
   .warn{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,107,107,.35); color:rgba(255,107,107,.95); font-size:11px; margin-left:6px;}
   .badge{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid rgba(99,215,173,.35); color:rgba(99,215,173,.95); font-size:11px; margin-left:8px;}
   .hiddenRow{opacity:.6; text-decoration:line-through;}
-  .advancedOnly{display:none;}
-  .showAdvanced .advancedOnly{display:inline-flex;}
-  .advancedCol{display:none;}
-  .showAdvanced .advancedCol{display:table-cell;}
+  .advancedCol{display:table-cell;}
   .printOnly{display:none;}
   .mobileBar{display:none;}
   .mobileOnlyControl{display:none;}
@@ -190,8 +203,25 @@
     .modal #ingredientRows td:nth-child(4)::before{content:"Hide in final list"; margin-right:8px; color:var(--muted); font-size:12px;}
     .modal #ingredientRows td:nth-child(5){grid-column:3; grid-row:2 / 4; align-self:center;}
     .modal #ingredientRows .tool{width:100% !important;}
+    .modalTitleRow{flex-direction:column; align-items:stretch;}
+    .managerSettings{grid-template-columns:1fr 1fr; gap:8px;}
+    .managerSettings .btn{width:100%; min-height:44px; padding:11px 10px;}
+    .managerControls{grid-template-columns:1fr;}
+    .managerTableWrap{max-height:58vh; overflow:auto;}
+    .managerModal #recipeManagerTable{display:block; min-width:0;}
+    .managerModal thead{display:none;}
+    .managerModal tbody{display:grid; gap:0;}
+    .managerModal tr{display:grid; grid-template-columns:1fr auto; gap:7px 10px; padding:12px 10px; border-bottom:1px solid var(--line);}
+    .managerModal td{display:block; border:0; padding:0;}
+    .managerModal td:nth-child(1){grid-column:1 / -1;}
+    .managerModal td:nth-child(2){grid-column:1; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .managerModal td:nth-child(3){grid-column:1; text-align:left; color:var(--muted); font-size:12px;}
+    .managerModal td:nth-child(3)::after{content:" ingredients";}
+    .managerModal td:nth-child(4){grid-column:1;}
+    .managerModal td:nth-child(5){grid-column:2; grid-row:2 / 5; align-self:end;}
     .previewStats{grid-template-columns:repeat(2,minmax(0,1fr));}
     .previewStats div:last-child{grid-column:1 / -1;}
+    .advancedCol{display:none;}
   }
 
   @media print{

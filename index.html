@@ -35,15 +35,11 @@
   <div id="printMeta" class="printOnly small"></div>
 
   <div class="toolbar">
-    <label class="tag advancedOnly">Default ingredient bottle size (cl): <input id="ingredientBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
-    <label class="tag advancedOnly">Finished bottle size (cl): <input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
-    <button class="btn secondary advancedOnly" id="addPrebatchBtn">+ Add new prebatch</button>
-    <button class="btn" id="reset">Clear production</button>
-    <button class="btn primary reviewBtn" id="copy">Review production sheet</button>
-    <button class="btn muted advancedOnly" id="reloadData">Reload</button>
-    <button class="btn muted advancedOnly" id="exportSettings">Export</button>
-    <button class="btn muted advancedOnly" id="importSettings">Import</button>
-    <button class="btn" id="toggleAdvanced">Advanced: Off</button>
+    <div class="toolbarActions">
+      <button class="btn" id="reset">Clear production</button>
+      <button class="btn primary reviewBtn" id="copy">Review production sheet</button>
+      <button class="btn secondary" id="recipeManagerBtn">Recipe manager</button>
+    </div>
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
   </div>
   <div class="mobileBar">
@@ -60,7 +56,6 @@
             <h2>Production</h2>
             <div class="small" id="filterSummary">Loading recipes...</div>
           </div>
-          <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button>
         </div>
         <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search Prebatch" />
         <div class="filterBar">
@@ -130,11 +125,53 @@
   </div>
 </div>
 
+<!-- Recipe Manager Modal -->
+<div id="recipeManagerModal" class="modalBack">
+  <div class="modal managerModal">
+    <div class="modalTitleRow">
+      <div>
+        <h2>Recipe manager</h2>
+        <div id="recipeManagerStats" class="hint"></div>
+      </div>
+      <button class="iconBtn" id="closeRecipeManager">Close</button>
+    </div>
+    <div class="managerSettings">
+      <label class="settingField"><span>Ingredient bottle</span><input id="ingredientBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
+      <label class="settingField"><span>Finished bottle</span><input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
+      <button class="btn secondary" id="addPrebatchBtn">+ Add recipe</button>
+      <button class="btn muted" id="reloadData">Reload JSON</button>
+    </div>
+    <div class="managerControls">
+      <input id="recipeManagerSearch" class="tool" placeholder="Search recipes or ingredients" />
+      <select id="recipeManagerDepartment" class="tool">
+        <option value="">All departments</option>
+      </select>
+      <button class="btn secondary" id="managerAddPrebatch">+ Add prebatch</button>
+      <button class="btn" id="managerImportJson">Import JSON</button>
+      <button class="btn" id="managerExportJson">Export JSON</button>
+    </div>
+    <div class="managerTableWrap">
+      <table id="recipeManagerTable">
+        <thead>
+          <tr>
+            <th>Recipe</th>
+            <th>Department</th>
+            <th class="right">Ingredients</th>
+            <th>Status</th>
+            <th class="right">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Add/Edit Prebatch Modal -->
 <div id="addPrebatchModal" class="modalBack">
   <div class="modal">
     <h2 id="modalTitle">+ Add new prebatch</h2>
-    <div id="modalHint" class="hint">Custom prebatches are saved on this device/browser. Excel prebatches can be edited via local overrides.</div>
+    <div id="modalHint" class="hint">Custom prebatches are saved on this device/browser. JSON recipes can be edited via local overrides.</div>
 
     <div class="modalGrid">
       <div>

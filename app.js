@@ -313,19 +313,10 @@ loadHiddenIngredients();
 const SETTINGS_SCHEMA_VERSION = 1;
 
 let showHidden = false;
-const ADVANCED_VIEW_KEY = 'advancedViewEnabled';
-let advancedViewEnabled = localStorage.getItem(ADVANCED_VIEW_KEY) === '1';
 const DEPARTMENT_FILTER_KEY = 'departmentFilter';
 const ACTIVE_ONLY_KEY = 'activeOnlyEnabled';
 let selectedDepartment = localStorage.getItem(DEPARTMENT_FILTER_KEY) || '';
 let activeOnlyEnabled = localStorage.getItem(ACTIVE_ONLY_KEY) === '1';
-if (advancedViewEnabled) document.body.classList.add('showAdvanced');
-function updateAdvancedButtonLabel(){
-  const btn = document.getElementById('toggleAdvanced');
-  if (btn) btn.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
-  const mb = document.getElementById('mobileAdvancedToggle');
-  if (mb) mb.textContent = `Advanced: ${advancedViewEnabled ? 'On' : 'Off'}`;
-}
 
 const dataSourceInfoEl = document.getElementById('dataSourceInfo');
 
@@ -351,6 +342,11 @@ const sheetPreviewModal = document.getElementById('sheetPreviewModal');
 const sheetPreviewText = document.getElementById('sheetPreviewText');
 const sheetPreviewHint = document.getElementById('sheetPreviewHint');
 const sheetPreviewStats = document.getElementById('sheetPreviewStats');
+const recipeManagerModal = document.getElementById('recipeManagerModal');
+const recipeManagerStats = document.getElementById('recipeManagerStats');
+const recipeManagerSearch = document.getElementById('recipeManagerSearch');
+const recipeManagerDepartment = document.getElementById('recipeManagerDepartment');
+const recipeManagerTbody = document.querySelector('#recipeManagerTable tbody');
 
 function updateRecipeCount(){
   document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
@@ -1076,7 +1072,7 @@ function openModal(mode, id=null){
   if (mode === 'edit-override'){
     if (isCustomPrebatch(pbRaw)){ alert('Custom prebatches are edited as Custom.'); closeModal(); return; }
     const pb = getEffectivePrebatch(pbRaw);
-    modalTitle.textContent = 'Edit Excel prebatch (local override)';
+    modalTitle.textContent = 'Edit JSON recipe (local override)';
     modalHint.textContent = 'This creates/updates a local override. The JSON source file is not changed.';
     deleteInModal.style.display = prebatchOverrides[pbRaw._id] ? 'inline-block' : 'none';
     deleteInModal.textContent='Reset override';
@@ -1117,12 +1113,135 @@ function resetOverride(id){
   renderIngredients();
 }
 
+function getRecipeStatus(pbRaw){
+  if (isCustomPrebatch(pbRaw)) return { label: 'Custom', className: 'custom' };
+  if (prebatchOverrides[pbRaw._id]) return { label: 'Local override', className: 'override' };
+  return { label: 'JSON source', className: 'source' };
+}
+
+function updateRecipeManagerDepartments(){
+  if (!recipeManagerDepartment) return;
+  const current = recipeManagerDepartment.value || '';
+  const departments = getDepartments();
+  recipeManagerDepartment.innerHTML = '';
+  recipeManagerDepartment.appendChild(new Option('All departments', ''));
+  departments.forEach(department => recipeManagerDepartment.appendChild(new Option(department, department)));
+  recipeManagerDepartment.value = departments.includes(current) ? current : '';
+}
+
+function getRecipeManagerRows(){
+  const q = (recipeManagerSearch?.value || '').trim().toLowerCase();
+  const departmentFilter = recipeManagerDepartment?.value || '';
+  return (DATA.prebatches || [])
+    .slice()
+    .sort((a,b)=> (getPrebatchDepartment(a)+' '+getEffectivePrebatch(a).name).localeCompare(getPrebatchDepartment(b)+' '+getEffectivePrebatch(b).name))
+    .filter(pbRaw => !departmentFilter || getPrebatchDepartment(pbRaw) === departmentFilter)
+    .filter(pbRaw => {
+      if (!q) return true;
+      const pb = getEffectivePrebatch(pbRaw);
+      const ingredients = (pb?.ingredients || []).map(i => String(i.name || '').toLowerCase()).join(' ');
+      return String(pb?.name || '').toLowerCase().includes(q)
+        || getPrebatchDepartment(pbRaw).toLowerCase().includes(q)
+        || ingredients.includes(q);
+    });
+}
+
+function renderRecipeManager(){
+  if (!recipeManagerTbody) return;
+  updateRecipeManagerDepartments();
+  const rows = getRecipeManagerRows();
+  const total = DATA.prebatches.length;
+  const overrides = Object.keys(prebatchOverrides || {}).length;
+  const custom = (DATA.prebatches || []).filter(isCustomPrebatch).length;
+  if (recipeManagerStats) {
+    recipeManagerStats.textContent = `${rows.length} shown · ${total} total · ${overrides} local override${overrides === 1 ? '' : 's'} · ${custom} custom`;
+  }
+
+  recipeManagerTbody.innerHTML = '';
+  if (!rows.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="5" class="small">No recipes match the current search or department.</td>';
+    recipeManagerTbody.appendChild(tr);
+    return;
+  }
+
+  rows.forEach(pbRaw => {
+    const pb = getEffectivePrebatch(pbRaw);
+    const id = pbRaw._id;
+    const status = getRecipeStatus(pbRaw);
+    const ingredientCount = (pb?.ingredients || []).length;
+    const batchTotal = (pb?.ingredients || []).reduce((sum, ing) => sum + (Number(ing.clPerBatch) || 0), 0);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <button class="nameBtn" data-manager-edit-id="${escapeAttr(id)}" title="Edit recipe">
+          <span class="name nameTxt">${escapeHtml(pb?.name || 'Untitled recipe')}</span>
+        </button>
+        <div class="sub">Batch total: <span class="mono">${batchTotal.toFixed(0)} cl</span></div>
+      </td>
+      <td>${escapeHtml(getPrebatchDepartment(pbRaw))}</td>
+      <td class="right mono">${ingredientCount}</td>
+      <td><span class="statusPill ${escapeAttr(status.className)}">${escapeHtml(status.label)}</span></td>
+      <td class="right">
+        <div class="managerActions">
+          <button class="iconBtn" data-manager-edit-id="${escapeAttr(id)}">Edit</button>
+          ${prebatchOverrides[id] ? `<button class="iconBtn danger" data-manager-reset-id="${escapeAttr(id)}">Reset</button>` : ''}
+        </div>
+      </td>
+    `;
+    recipeManagerTbody.appendChild(tr);
+  });
+
+  recipeManagerTbody.querySelectorAll('[data-manager-edit-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.managerEditId;
+      const pbRaw = DATA.prebatches.find(x => x._id === id);
+      if (!pbRaw) return;
+      closeRecipeManager();
+      openModal(isCustomPrebatch(pbRaw) ? 'edit-custom' : 'edit-override', id);
+    });
+  });
+
+  recipeManagerTbody.querySelectorAll('[data-manager-reset-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      resetOverride(btn.dataset.managerResetId);
+      renderRecipeManager();
+    });
+  });
+}
+
+function openRecipeManager(){
+  if (!recipeManagerModal) return;
+  renderRecipeManager();
+  recipeManagerModal.style.display = 'block';
+  recipeManagerSearch?.focus();
+}
+
+function closeRecipeManager(){
+  if (recipeManagerModal) recipeManagerModal.style.display = 'none';
+}
+
 // Buttons
 
 document.getElementById('addPrebatchBtn').addEventListener('click', () => openModal('add'));
+document.getElementById('recipeManagerBtn')?.addEventListener('click', openRecipeManager);
 document.getElementById('cancelAddPrebatch').addEventListener('click', closeModal);
 modalBack.addEventListener('click', (e)=>{ if (e.target === modalBack) closeModal(); });
 document.getElementById('addIngredientRow').addEventListener('click', () => addIngredientRow());
+document.getElementById('closeRecipeManager')?.addEventListener('click', closeRecipeManager);
+recipeManagerModal?.addEventListener('click', (e)=>{ if (e.target === recipeManagerModal) closeRecipeManager(); });
+recipeManagerSearch?.addEventListener('input', renderRecipeManager);
+recipeManagerDepartment?.addEventListener('change', renderRecipeManager);
+document.getElementById('managerAddPrebatch')?.addEventListener('click', () => {
+  closeRecipeManager();
+  openModal('add');
+});
+document.getElementById('managerImportJson')?.addEventListener('click', () => {
+  const inp = document.getElementById('importSettingsFile');
+  inp.value = '';
+  inp.click();
+});
+document.getElementById('managerExportJson')?.addEventListener('click', downloadSettingsFile);
 
 deleteInModal.addEventListener('click', () => {
   if (!editingId) return;
@@ -1199,7 +1318,7 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
 
   if (modalMode === 'edit-override'){
     const pb = DATA.prebatches.find(x => x._id === editingId);
-    if (!pb || isCustomPrebatch(pb)){ alert('Only Excel prebatches use overrides.'); return; }
+    if (!pb || isCustomPrebatch(pb)){ alert('Only JSON source recipes use overrides.'); return; }
     prebatchOverrides[pb._id] = { name, sheet: department, ingredients };
     savePrebatchOverrides();
     updateDepartmentOptions();
@@ -1229,16 +1348,6 @@ if (activeOnlyEl) {
 [ingBottleSizeEl, finBottleSizeEl].forEach(el => el.addEventListener('input', () => { renderPrebatches(); renderIngredients(); }));
 
 
-document.getElementById('exportSettings').addEventListener('click', () => {
-  downloadSettingsFile();
-});
-
-document.getElementById('importSettings').addEventListener('click', () => {
-  const inp = document.getElementById('importSettingsFile');
-  inp.value = '';
-  inp.click();
-});
-
 document.getElementById('importSettingsFile').addEventListener('change', async (e) => {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
@@ -1254,19 +1363,6 @@ if (printSheetBtn) printSheetBtn.addEventListener('click', openSheetPreview);
 document.getElementById('reloadData').addEventListener('click', () => {
   reloadDataFromJsonAtRuntime();
 });
-document.getElementById('toggleAdvanced').addEventListener('click', () => {
-  advancedViewEnabled = !advancedViewEnabled;
-  document.body.classList.toggle('showAdvanced', advancedViewEnabled);
-  localStorage.setItem(ADVANCED_VIEW_KEY, advancedViewEnabled ? '1' : '0');
-  updateAdvancedButtonLabel();
-  renderPrebatches();
-});
-const mobileAdvancedToggle = document.getElementById('mobileAdvancedToggle');
-if (mobileAdvancedToggle) {
-  mobileAdvancedToggle.addEventListener('click', () => {
-    document.getElementById('toggleAdvanced').click();
-  });
-}
 document.getElementById('reset').addEventListener('click', () => {
   const counts = getProductionSessionCounts();
   if ((counts.activeRecipes > 0 || counts.notes > 0) && !confirm('Clear all entered batches and prep notes for this production session?')) return;
@@ -1557,7 +1653,6 @@ async function handleSettingsImportFile(file){
 document.getElementById('copy').addEventListener('click', openSheetPreview);
 
 async function initializeApp(){
-  updateAdvancedButtonLabel();
   updateRecipeCount();
   updateDataSourceInfo();
 

@@ -350,6 +350,7 @@ const productionSummaryEl = document.getElementById('productionSummary');
 const sheetPreviewModal = document.getElementById('sheetPreviewModal');
 const sheetPreviewText = document.getElementById('sheetPreviewText');
 const sheetPreviewHint = document.getElementById('sheetPreviewHint');
+const sheetPreviewStats = document.getElementById('sheetPreviewStats');
 
 function updateRecipeCount(){
   document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
@@ -514,6 +515,69 @@ function getActiveProductionItems(){
     })
     .filter(Boolean)
     .sort((a,b) => (a.department + a.pb.name).localeCompare(b.department + b.pb.name));
+}
+
+function collectProductionMetrics({defaultIngBottleSize=null}={}){
+  const ingredientBottleSize = defaultIngBottleSize || clampNum(ingBottleSizeEl.value) || 70;
+  const activeItems = getActiveProductionItems();
+  const departmentTotals = new Map();
+  const ingredientTotals = new Map();
+  let totalBatches = 0;
+  let totalFinishedBottles = 0;
+
+  activeItems.forEach(item => {
+    const {pb, batches, department, bottles} = item;
+    totalBatches += batches;
+    totalFinishedBottles += bottles;
+
+    const departmentTotal = departmentTotals.get(department) || {recipes:0, batches:0, bottles:0};
+    departmentTotal.recipes += 1;
+    departmentTotal.batches += batches;
+    departmentTotal.bottles += bottles;
+    departmentTotals.set(department, departmentTotal);
+
+    (pb.ingredients || []).forEach(ing => {
+      const rawName = String(ing.name || '').replace(/\u00A0/g,' ').trim();
+      if (!rawName) return;
+      const key = normalizeIngName(rawName);
+      if (isIngredientHiddenInFinishedList(ing, key)) return;
+      const cl = (Number(ing.clPerBatch) || 0) * batches;
+      const bsz = (ing.bottleSizeCl && Number(ing.bottleSizeCl)>0) ? Number(ing.bottleSizeCl) : null;
+
+      if (!ingredientTotals.has(key)) {
+        ingredientTotals.set(key, {displayName: getPreferredIngredientDisplayName(key, rawName), cl:0, bottleSizeCl: bsz, conflict:false});
+      }
+      const obj = ingredientTotals.get(key);
+      obj.cl += cl;
+      if (obj.displayName === obj.displayName.toLowerCase() && rawName !== rawName.toLowerCase()) {
+        obj.displayName = getPreferredIngredientDisplayName(key, rawName);
+      }
+      if (bsz) {
+        if (obj.bottleSizeCl === null) obj.bottleSizeCl = bsz;
+        else if (obj.bottleSizeCl !== bsz) obj.conflict = true;
+      }
+    });
+  });
+
+  const ingredientEntries = Array.from(ingredientTotals.entries())
+    .sort((a,b)=> (a[1].displayName||a[0]).localeCompare(b[1].displayName||b[0]))
+    .map(([key, obj]) => {
+      const override = Number(ingredientBottleOverrides[key]);
+      const recipeSize = (!obj.conflict && obj.bottleSizeCl) ? obj.bottleSizeCl : null;
+      const usedSize = (override>0) ? override : (recipeSize || ingredientBottleSize);
+      const bottles = usedSize>0 ? (obj.cl / usedSize) : 0;
+      return {key, ...obj, override, recipeSize, usedSize, bottles, hasOverride: override > 0};
+    });
+
+  return {
+    activeItems,
+    departmentTotals,
+    ingredientEntries,
+    totalBatches,
+    totalFinishedBottles,
+    totalIngredientCl: ingredientEntries.reduce((sum, obj) => sum + obj.cl, 0),
+    totalIngredientBottles: ingredientEntries.reduce((sum, obj) => sum + obj.bottles, 0)
+  };
 }
 
 function getBatchesForPrebatch(id){
@@ -732,55 +796,12 @@ function renderPrebatches(){
 
 function renderIngredients(){
   const defaultIngBottleSize = clampNum(ingBottleSizeEl.value) || 70;
-  const finBottleSize = clampNum(finBottleSizeEl.value) || 70;
-
-  // totals keyed by normalised ingredient name
-  const totals = new Map();
-  let totalBatches=0;
-  let totalFinishedBottles=0;
-  const madeLines = [];
-  const activeItems = getActiveProductionItems();
-  const departmentTotals = new Map();
-
-  activeItems.forEach(item => {
-    const {pbRaw, pb, batches, department, bottles} = item;
-
-    totalBatches += batches;
-    totalFinishedBottles += bottles;
-    madeLines.push(`${department} / ${pb.name}:   ${bottles.toFixed(2)} bottles`);
-    const departmentTotal = departmentTotals.get(department) || {recipes:0, batches:0, bottles:0};
-    departmentTotal.recipes += 1;
-    departmentTotal.batches += batches;
-    departmentTotal.bottles += bottles;
-    departmentTotals.set(department, departmentTotal);
-
-    (pb.ingredients||[]).forEach(ing => {
-      const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
-      if (!rawName) return;
-      const key = normalizeIngName(rawName);
-      const cl = (Number(ing.clPerBatch)||0) * batches;
-      const bsz = (ing.bottleSizeCl && Number(ing.bottleSizeCl)>0) ? Number(ing.bottleSizeCl) : null;
-      if (isIngredientHiddenInFinishedList(ing, key)) return;
-
-      if (!totals.has(key)) {
-        totals.set(key, {displayName: getPreferredIngredientDisplayName(key, rawName), cl:0, bottleSizeCl: bsz, conflict:false});
-      }
-      const obj = totals.get(key);
-      obj.cl += cl;
-      // choose a nicer display name if current one is all lower-case and this isn't
-      if (obj.displayName === obj.displayName.toLowerCase() && rawName !== rawName.toLowerCase()) {
-        obj.displayName = getPreferredIngredientDisplayName(key, rawName);
-      }
-      if (bsz) {
-        if (obj.bottleSizeCl === null) obj.bottleSizeCl = bsz;
-        else if (obj.bottleSizeCl !== bsz) obj.conflict = true;
-      }
-    });
-  });
+  const metrics = collectProductionMetrics({defaultIngBottleSize});
+  const madeLines = metrics.activeItems.map(item => `${item.department} / ${item.pb.name}:   ${item.bottles.toFixed(2)} bottles`);
 
   if (productionSummaryEl) {
-    if (departmentTotals.size > 0) {
-      const rows = Array.from(departmentTotals.entries()).map(([department, total]) => `
+    if (metrics.departmentTotals.size > 0) {
+      const rows = Array.from(metrics.departmentTotals.entries()).map(([department, total]) => `
         <div class="summaryItem">
           <span>${escapeHtml(department)}</span>
           <strong>${total.recipes} active · ${total.batches.toFixed(2)} batches · ${total.bottles.toFixed(2)} bottles</strong>
@@ -792,8 +813,8 @@ function renderIngredients(){
     }
   }
 
-  document.getElementById('kpiBatches').textContent = totalBatches.toFixed(2);
-  document.getElementById('kpiBottles').textContent = totalFinishedBottles.toFixed(2);
+  document.getElementById('kpiBatches').textContent = metrics.totalBatches.toFixed(2);
+  document.getElementById('kpiBottles').textContent = metrics.totalFinishedBottles.toFixed(2);
   if (madeLines.length > 0) {
     prebatchesMadeInfo.innerHTML = `<b>Prebatches made</b><br>${madeLines.map(escapeHtml).join('<br>')}`;
   } else {
@@ -808,26 +829,20 @@ function renderIngredients(){
   }
 
   ingTbody.innerHTML='';
-  const entries = Array.from(totals.entries()).sort((a,b)=> (a[1].displayName||a[0]).localeCompare(b[1].displayName||b[0]));
 
   let ingTotalCl=0;
   let ingTotalBottles=0;
 
-  entries.forEach(([key, obj]) => {
+  metrics.ingredientEntries.forEach(obj => {
+    const key = obj.key;
     const name = obj.displayName;
     const isHidden = !!hiddenIngredients[key];
     if (isHidden && !showHidden) return;
 
     const cl = obj.cl;
-    const override = Number(ingredientBottleOverrides[key]);
-    const recipeSize = (!obj.conflict && obj.bottleSizeCl) ? obj.bottleSizeCl : null;
-    const usedSize = (override>0) ? override : (recipeSize || defaultIngBottleSize);
-
-    const exact = usedSize>0 ? (cl / usedSize) : 0;
-    const bottles = exact; // rounding OFF
+    const bottles = obj.bottles; // rounding OFF
 
     const warn = obj.conflict ? '<span class="warn">mixed recipe sizes</span>' : '';
-    const hasOverride = override>0;
 
     const hideBtn = isHidden
       ? `<button class="iconBtn" data-unhide="${escapeAttr(key)}" title="Unhide">Unhide</button>`
@@ -840,8 +855,8 @@ function renderIngredients(){
       <td class="right mono">${cl.toFixed(1)}</td>
       <td class="right">
         <div style="display:flex; gap:8px; justify-content:flex-end; align-items:center;">
-          <input class="tool inp mono" type="number" min="0" step="1" data-ing="${escapeAttr(key)}" value="${hasOverride ? escapeAttr(override) : ''}" placeholder="${usedSize.toFixed(0)}" />
-          ${hasOverride ? `<button class="iconBtn" data-clear="${escapeAttr(key)}" title="Clear bottle override">Reset</button>` : ''}
+          <input class="tool inp mono" type="number" min="0" step="1" data-ing="${escapeAttr(key)}" value="${obj.hasOverride ? escapeAttr(obj.override) : ''}" placeholder="${obj.usedSize.toFixed(0)}" />
+          ${obj.hasOverride ? `<button class="iconBtn" data-clear="${escapeAttr(key)}" title="Clear bottle override">Reset</button>` : ''}
           ${hideBtn}
         </div>
       </td>
@@ -913,33 +928,13 @@ function renderIngredients(){
 
 function getShoppingListText(){
   const defaultIngBottleSize = clampNum(ingBottleSizeEl.value) || 70;
-
-  const totals = new Map();
-  const activeItems = getActiveProductionItems();
+  const metrics = collectProductionMetrics({defaultIngBottleSize});
   const groupedPrebatches = new Map();
 
-  activeItems.forEach(item => {
+  metrics.activeItems.forEach(item => {
     const {pb, batches, department, bottles, note} = item;
     if (!groupedPrebatches.has(department)) groupedPrebatches.set(department, []);
     groupedPrebatches.get(department).push(`${pb.name}: ${batches.toFixed(2)} batches = ${bottles.toFixed(2)} bottles${note ? ` [Note: ${note}]` : ''}`);
-
-    (pb.ingredients||[]).forEach(ing => {
-      const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
-      if (!rawName) return;
-      const key = normalizeIngName(rawName);
-      if (isIngredientHiddenInFinishedList(ing, key)) return;
-      const cl = (Number(ing.clPerBatch)||0) * batches;
-      const bsz = (ing.bottleSizeCl && Number(ing.bottleSizeCl)>0) ? Number(ing.bottleSizeCl) : null;
-
-      if (!totals.has(key)) totals.set(key, {displayName: getPreferredIngredientDisplayName(key, rawName), cl:0, bottleSizeCl:bsz, conflict:false});
-      const obj = totals.get(key);
-      obj.cl += cl;
-      if (obj.displayName === obj.displayName.toLowerCase() && rawName !== rawName.toLowerCase()) obj.displayName = getPreferredIngredientDisplayName(key, rawName);
-      if (bsz){
-        if (obj.bottleSizeCl === null) obj.bottleSizeCl = bsz;
-        else if (obj.bottleSizeCl !== bsz) obj.conflict = true;
-      }
-    });
   });
 
   const pbLines = [];
@@ -949,16 +944,7 @@ function getShoppingListText(){
   });
   if (!pbLines.length) pbLines.push('(No active prebatches)');
 
-  const ingLines = Array.from(totals.entries())
-    .sort((a,b)=> (a[1].displayName||a[0]).localeCompare(b[1].displayName||b[0]))
-    .map(([key, obj]) => {
-      const override = Number(ingredientBottleOverrides[key]);
-      const recipeSize = (!obj.conflict && obj.bottleSizeCl) ? obj.bottleSizeCl : null;
-      const usedSize = (override>0) ? override : (recipeSize || defaultIngBottleSize);
-      const exact = usedSize>0 ? (obj.cl/usedSize) : 0;
-      const bottles = exact;
-      return `${obj.displayName}: ${obj.cl.toFixed(1)} cl = ${bottles.toFixed(2)} bottles`;
-    });
+  const ingLines = metrics.ingredientEntries.map(obj => `${obj.displayName}: ${obj.cl.toFixed(1)} cl = ${obj.bottles.toFixed(2)} bottles`);
   if (!ingLines.length) ingLines.push('(No ingredients required)');
 
   const generated = new Date().toLocaleString();
@@ -997,12 +983,22 @@ function updatePrintMeta(){
 
 function openSheetPreview(){
   if (!sheetPreviewModal || !sheetPreviewText) return;
-  const activeItems = getActiveProductionItems();
+  const metrics = collectProductionMetrics();
+  const activeItems = metrics.activeItems;
   sheetPreviewText.textContent = getShoppingListText();
   if (sheetPreviewHint) {
     sheetPreviewHint.textContent = activeItems.length
       ? `Review ${activeItems.length} active prebatch${activeItems.length === 1 ? '' : 'es'} before copying or printing.`
       : 'No active prebatches yet. The sheet will be empty until you enter batches.';
+  }
+  if (sheetPreviewStats) {
+    sheetPreviewStats.innerHTML = `
+      <div><span>${activeItems.length}</span><small>Prebatches</small></div>
+      <div><span>${metrics.departmentTotals.size}</span><small>Departments</small></div>
+      <div><span>${metrics.totalBatches.toFixed(2)}</span><small>Batches</small></div>
+      <div><span>${metrics.totalFinishedBottles.toFixed(2)}</span><small>Finished bottles</small></div>
+      <div><span>${metrics.totalIngredientBottles.toFixed(2)}</span><small>Ingredient bottles</small></div>
+    `;
   }
   sheetPreviewModal.style.display = 'block';
 }

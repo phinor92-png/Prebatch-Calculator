@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "validate:data": "node scripts/validate-data.js"
+  }
+}

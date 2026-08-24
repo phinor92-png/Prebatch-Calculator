@@ -83,6 +83,7 @@ async function reloadDataFromJsonAtRuntime(){
     await loadDataFromJson({ cacheBust: true });
     pruneResolvedOverrides();
     loadCustomPrebatches();
+    updateDepartmentOptions();
     updateRecipeCount();
     updateDataSourceInfo();
     renderPrebatches();
@@ -304,6 +305,10 @@ const SETTINGS_SCHEMA_VERSION = 1;
 let showHidden = false;
 const ADVANCED_VIEW_KEY = 'advancedViewEnabled';
 let advancedViewEnabled = localStorage.getItem(ADVANCED_VIEW_KEY) === '1';
+const DEPARTMENT_FILTER_KEY = 'departmentFilter';
+const ACTIVE_ONLY_KEY = 'activeOnlyEnabled';
+let selectedDepartment = localStorage.getItem(DEPARTMENT_FILTER_KEY) || '';
+let activeOnlyEnabled = localStorage.getItem(ACTIVE_ONLY_KEY) === '1';
 if (advancedViewEnabled) document.body.classList.add('showAdvanced');
 function updateAdvancedButtonLabel(){
   const btn = document.getElementById('toggleAdvanced');
@@ -317,15 +322,20 @@ const dataSourceInfoEl = document.getElementById('dataSourceInfo');
 // State per prebatch id
 const state = new Map();
 const searchEl = document.getElementById('search');
+const departmentFilterEl = document.getElementById('departmentFilter');
+const activeOnlyEl = document.getElementById('activeOnly');
 const ingBottleSizeEl = document.getElementById('ingredientBottleSize');
 const finBottleSizeEl = document.getElementById('finishedBottleSize');
 const pbTbody = document.querySelector('#pbTable tbody');
 const ingTbody = document.querySelector('#ingTable tbody');
 const hiddenInfo = document.getElementById('hiddenInfo');
 const prebatchesMadeInfo = document.getElementById('prebatchesMadeInfo');
+const countActiveEl = document.getElementById('countActive');
+const filterSummaryEl = document.getElementById('filterSummary');
 
 function updateRecipeCount(){
   document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
+  if (countActiveEl) countActiveEl.textContent = String(getActivePrebatchCount());
 }
 
 function updateDataSourceInfo(){
@@ -354,20 +364,77 @@ function bottlesPerBatch(pb, finishedBottleSize){
   return finishedBottleSize > 0 ? (total / finishedBottleSize) : 0;
 }
 
+function getBatchesForPrebatch(id){
+  return clampNum(state.get(id)?.batches);
+}
+
+function isActivePrebatch(pbRaw){
+  return getBatchesForPrebatch(pbRaw?._id) > 0;
+}
+
+function getActivePrebatchCount(){
+  return (DATA.prebatches || []).filter(isActivePrebatch).length;
+}
+
+function getDepartments(){
+  return Array.from(new Set((DATA.prebatches || []).map(pb => String(pb.sheet || 'Custom').trim()).filter(Boolean)))
+    .sort((a,b) => a.localeCompare(b));
+}
+
+function updateDepartmentOptions(){
+  if (!departmentFilterEl) return;
+  const departments = getDepartments();
+  departmentFilterEl.innerHTML = '';
+  departmentFilterEl.appendChild(new Option('All departments', ''));
+  departments.forEach(department => departmentFilterEl.appendChild(new Option(department, department)));
+  if (selectedDepartment && !departments.includes(selectedDepartment)) selectedDepartment = '';
+  departmentFilterEl.value = selectedDepartment;
+}
+
+function getFilteredPrebatches(){
+  const q = (searchEl.value || '').trim().toLowerCase();
+  return DATA.prebatches
+    .slice()
+    .sort((a,b)=> (a.sheet+' '+a.name).localeCompare(b.sheet+' '+b.name))
+    .filter(pbRaw => !selectedDepartment || String(pbRaw.sheet || 'Custom') === selectedDepartment)
+    .filter(pbRaw => !activeOnlyEnabled || isActivePrebatch(pbRaw))
+    .filter(pbRaw => {
+      if (!q) return true;
+      const overrideName = (prebatchOverrides[pbRaw._id]?.name || '').toLowerCase();
+      const ingredients = (getEffectivePrebatch(pbRaw)?.ingredients || []).map(i => String(i.name || '').toLowerCase()).join(' ');
+      return String(pbRaw.name || '').toLowerCase().includes(q) || overrideName.includes(q) || ingredients.includes(q);
+    });
+}
+
+function updateFilterSummary(visibleCount){
+  if (!filterSummaryEl) return;
+  const parts = [`${visibleCount} shown`];
+  if (selectedDepartment) parts.push(selectedDepartment);
+  if (activeOnlyEnabled) parts.push('active only');
+  filterSummaryEl.textContent = parts.join(' · ');
+}
+
 function isIngredientHiddenInFinishedList(ing, key){
   return !!hiddenIngredients[key] || !!ing?.hideInFinalList;
 }
 
 function renderPrebatches(){
-  const q = (searchEl.value || '').trim().toLowerCase();
   pbTbody.innerHTML = '';
   const finBottleSize = clampNum(finBottleSizeEl.value) || 70;
+  const filteredPrebatches = getFilteredPrebatches();
+  updateRecipeCount();
+  updateFilterSummary(filteredPrebatches.length);
 
-  DATA.prebatches
-    .slice()
-    .sort((a,b)=> (a.sheet+' '+a.name).localeCompare(b.sheet+' '+b.name))
-    .filter(pb => !q || pb.name.toLowerCase().includes(q) || ((prebatchOverrides[pb._id]?.name)||'').toLowerCase().includes(q))
-    .forEach(pbRaw => {
+  if (!filteredPrebatches.length) {
+    const tr = document.createElement('tr');
+    const emptyMessage = activeOnlyEnabled
+      ? 'No active recipes yet. Turn off Active only to choose recipes.'
+      : 'No recipes match the current filters.';
+    tr.innerHTML = `<td colspan="4" class="small">${escapeHtml(emptyMessage)}</td>`;
+    pbTbody.appendChild(tr);
+  }
+
+  filteredPrebatches.forEach(pbRaw => {
       const pb = getEffectivePrebatch(pbRaw);
       const id = pbRaw._id;
       if (!state.has(id)) state.set(id, {batches:0});
@@ -382,7 +449,7 @@ function renderPrebatches(){
 
       const note = String(prebatchNotes[id] || '');
       const tr = document.createElement('tr');
-      if ((Number(st.batches) || 0) > 0) tr.classList.add('printInclude');
+      if ((Number(st.batches) || 0) > 0) tr.classList.add('printInclude', 'activeRow');
       tr.innerHTML = `
         <td>
           <button class="nameBtn" data-edit-mode="${isCustom ? 'edit-custom' : 'edit-override'}" data-edit-id="${escapeAttr(id)}" title="Edit prebatch">
@@ -405,14 +472,11 @@ function renderPrebatches(){
       pbTbody.appendChild(tr);
     });
 
-  const commitProductionInput = (inputEl) => {
+  const commitProductionInput = (inputEl, {rerenderPrebatches=false}={}) => {
     const id = inputEl.dataset.id;
     const mode = inputEl.dataset.mode;
     const pbRaw = DATA.prebatches.find(x => x._id === id);
     if (!pbRaw) return;
-    const pb = getEffectivePrebatch(pbRaw);
-    const finBottleSize = clampNum(finBottleSizeEl.value) || 70;
-    const bpb = bottlesPerBatch(pb, finBottleSize);
     const val = Math.max(0, clampNum(inputEl.value));
 
     const st = state.get(id) || {batches:0};
@@ -420,13 +484,20 @@ function renderPrebatches(){
       st.batches = val;
     }
     state.set(id, st);
-    renderPrebatches();
+    const row = inputEl.closest('tr');
+    if (row) {
+      row.classList.toggle('printInclude', st.batches > 0);
+      row.classList.toggle('activeRow', st.batches > 0);
+    }
+    updateRecipeCount();
     renderIngredients();
+    if (rerenderPrebatches || activeOnlyEnabled) renderPrebatches();
   };
 
   pbTbody.querySelectorAll('input[data-id]').forEach(inp => {
-    inp.addEventListener('change', () => commitProductionInput(inp));
-    inp.addEventListener('blur', () => commitProductionInput(inp));
+    inp.addEventListener('input', () => commitProductionInput(inp));
+    inp.addEventListener('change', () => commitProductionInput(inp, {rerenderPrebatches: true}));
+    inp.addEventListener('blur', () => commitProductionInput(inp, {rerenderPrebatches: true}));
     inp.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -495,7 +566,7 @@ function renderIngredients(){
     totalBatches += batches;
     const madeBottles = batches * bottlesPerBatch(pb, finBottleSize);
     totalFinishedBottles += madeBottles;
-    madeLines.push(`${pb.name}:   ${madeBottles.toFixed(2)} fl`);
+    madeLines.push(`${pb.name}:   ${madeBottles.toFixed(2)} bottles`);
 
     (pb.ingredients||[]).forEach(ing => {
       const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
@@ -659,7 +730,7 @@ function getShoppingListText(){
     const totalClPerBatch = (pb.ingredients||[]).reduce((s,i)=>s+(Number(i.clPerBatch)||0),0);
     const bottlesMade = (totalClPerBatch/finBottleSize) * batches;
     const note = prebatchNotes[id] ? ` [Note: ${prebatchNotes[id]}]` : '';
-    pbLines.push(`${pb.name}:   ${bottlesMade.toFixed(2)} fl`);
+    pbLines.push(`${pb.name}: ${batches.toFixed(2)} batches = ${bottlesMade.toFixed(2)} bottles${note}`);
 
     (pb.ingredients||[]).forEach(ing => {
       const rawName = String(ing.name||'').replace(/\u00A0/g,' ').trim();
@@ -688,16 +759,20 @@ function getShoppingListText(){
       const usedSize = (override>0) ? override : (recipeSize || defaultIngBottleSize);
       const exact = usedSize>0 ? (obj.cl/usedSize) : 0;
       const bottles = exact;
-      return `${obj.displayName}:   ${obj.cl.toFixed(1)} cl = ${bottles.toFixed(2)} fl`;
+      return `${obj.displayName}: ${obj.cl.toFixed(1)} cl = ${bottles.toFixed(2)} bottles`;
     });
 
+  const generated = new Date().toLocaleString();
   return [
-    'PREBATCHES MADE (BOTTLES)',
-    'Prebatch = Bottles',
+    'PREBATCH PRODUCTION SHEET',
+    `Generated: ${generated}`,
+    '',
+    'PREBATCHES TO MAKE',
+    'Prebatch: batches = finished bottles',
     ...pbLines,
     '',
-    'INGREDIENTS USED (BOTTLES)',
-    'Ingredient = cl = fl',
+    'INGREDIENTS REQUIRED',
+    'Ingredient: total cl = bottles',
     ...ingLines
   ].join('\n');
 }
@@ -782,7 +857,8 @@ function deleteCustomPrebatch(id){
   DATA.prebatches = DATA.prebatches.filter(x => x._id !== id);
   state.delete(id);
   saveCustomPrebatches();
-  document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
+  updateDepartmentOptions();
+  updateRecipeCount();
   renderPrebatches();
   renderIngredients();
 }
@@ -842,7 +918,8 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
     const newPB = { _id: makeId(), name, sheet:'Custom', ingredients };
     DATA.prebatches.push(newPB);
     saveCustomPrebatches();
-    document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
+    updateDepartmentOptions();
+    updateRecipeCount();
     closeModal();
     renderPrebatches();
     renderIngredients();
@@ -877,6 +954,21 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
 });
 
 searchEl.addEventListener('input', () => { renderPrebatches(); });
+if (departmentFilterEl) {
+  departmentFilterEl.addEventListener('change', () => {
+    selectedDepartment = departmentFilterEl.value;
+    localStorage.setItem(DEPARTMENT_FILTER_KEY, selectedDepartment);
+    renderPrebatches();
+  });
+}
+if (activeOnlyEl) {
+  activeOnlyEl.checked = activeOnlyEnabled;
+  activeOnlyEl.addEventListener('change', () => {
+    activeOnlyEnabled = activeOnlyEl.checked;
+    localStorage.setItem(ACTIVE_ONLY_KEY, activeOnlyEnabled ? '1' : '0');
+    renderPrebatches();
+  });
+}
 [ingBottleSizeEl, finBottleSizeEl].forEach(el => el.addEventListener('input', () => { renderPrebatches(); renderIngredients(); }));
 
 
@@ -1101,7 +1193,8 @@ function applyImportedSettings(raw){
   saveIngredientBottleOverrides();
   saveCustomPrebatches();
 
-  document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
+  updateDepartmentOptions();
+  updateRecipeCount();
   renderPrebatches();
   renderIngredients();
 
@@ -1170,7 +1263,8 @@ function applyImportedFullData(raw){
   saveHiddenIngredients();
   saveIngredientBottleOverrides();
 
-  document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
+  updateDepartmentOptions();
+  updateRecipeCount();
   renderPrebatches();
   renderIngredients();
   alert(`Full data imported successfully (${DATA.prebatches.length} recipes).`);
@@ -1226,6 +1320,7 @@ async function initializeApp(){
 
   pruneResolvedOverrides();
   loadCustomPrebatches();
+  updateDepartmentOptions();
   updateRecipeCount();
   updateDataSourceInfo();
   renderPrebatches();

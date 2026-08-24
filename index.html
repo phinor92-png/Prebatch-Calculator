@@ -21,9 +21,17 @@
 </div>
 <div id="appRoot">
 <div class="wrap">
-  <h1>Prebatch Calculator</h1>
-  <p>Set batches produced. See required ingredients and bottle equivalents.</p>
-  <p id="dataSourceInfo" class="small"></p>
+  <header class="appHeader">
+    <div>
+      <h1>Prebatch Calculator</h1>
+      <p>Plan production, print prep sheets, and copy ingredient totals.</p>
+      <p id="dataSourceInfo" class="small"></p>
+    </div>
+    <div class="headerStats">
+      <div><span id="countTotal">0</span><small>Recipes</small></div>
+      <div><span id="countActive">0</span><small>Active</small></div>
+    </div>
+  </header>
   <div id="printMeta" class="printOnly small"></div>
 
   <div class="toolbar">
@@ -31,7 +39,7 @@
     <label class="tag advancedOnly">Finished bottle size (cl): <input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /></label>
     <button class="btn secondary advancedOnly" id="addPrebatchBtn">+ Add new prebatch</button>
     <button class="btn" id="reset">Reset</button>
-    <button class="btn primary" id="copy">Copy output</button>
+    <button class="btn primary" id="copy">Copy production sheet</button>
     <button class="btn primary" id="printSheet">Print</button>
     <button class="btn muted advancedOnly" id="reloadData">Reload</button>
     <button class="btn muted advancedOnly" id="exportSettings">Export</button>
@@ -40,7 +48,7 @@
     <input id="importSettingsFile" type="file" accept="application/json,.json" style="display:none" />
   </div>
   <div class="mobileBar">
-    <button class="btn primary" id="mCopy">Copy</button>
+    <button class="btn primary" id="mCopy">Copy sheet</button>
     <button class="btn primary" id="mPrint">Print</button>
     <button class="btn" id="mReset">Reset</button>
   </div>
@@ -49,9 +57,25 @@
 
     <div class="card">
       <div class="section">
-        <div class="small">Recipes loaded: <span class="pill"><span id="countTotal">41</span></span> <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button></div>
-        <div class="small" style="margin-top:6px;">You can import new or updated recipes.</div>
+        <div class="sectionHead">
+          <div>
+            <h2>Production</h2>
+            <div class="small" id="filterSummary">Loading recipes...</div>
+          </div>
+          <button class="iconBtn mobileOnlyControl" id="mobileAdvancedToggle">Advanced: Off</button>
+        </div>
         <input id="search" class="tool" style="width:100%; max-width:100%; box-sizing:border-box; margin-top:10px;" placeholder="Search Prebatch" />
+        <div class="filterBar">
+          <label class="fieldLabel">Department
+            <select id="departmentFilter" class="tool">
+              <option value="">All departments</option>
+            </select>
+          </label>
+          <label class="toggleLine">
+            <input id="activeOnly" type="checkbox" />
+            <span>Active only</span>
+          </label>
+        </div>
       </div>
       <div style="max-height:520px; overflow:auto; border-top:1px solid var(--line);">
         <table id="pbTable">
@@ -68,7 +92,7 @@
       <div class="stickyFooter">
         <div class="kpi">
           <div class="box"><div class="val mono" id="kpiBatches">0.00</div><div class="lbl">Batches</div></div>
-          <div class="box"><div class="val mono" id="kpiBottles">0.00</div><div class="lbl">Finished fl</div></div>
+          <div class="box"><div class="val mono" id="kpiBottles">0.00</div><div class="lbl">Finished bottles</div></div>
         </div>
         <div class="small">Decimals supported (e.g., 0.67 batch).</div>
       </div>
@@ -97,9 +121,9 @@
       <div class="stickyFooter">
         <div class="kpi">
           <div class="box"><div class="val mono" id="kpiIngCl">0.0</div><div class="lbl">Visible cl</div></div>
-          <div class="box"><div class="val mono" id="kpiIngBottles">0.00</div><div class="lbl">Visible fl</div></div>
+          <div class="box"><div class="val mono" id="kpiIngBottles">0.00</div><div class="lbl">Visible bottles</div></div>
         </div>
-        <div class="small">Copy output is formatted for system paste.</div>
+        <div class="small">Copy creates a production sheet for handover or system paste.</div>
       </div>
     </div>
 

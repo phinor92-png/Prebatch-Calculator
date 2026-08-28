@@ -1042,8 +1042,8 @@ function openModal(mode, id=null){
   modalBack.style.display='block';
 
   if (mode === 'add'){
-    modalTitle.textContent = '+ Add new prebatch';
-    modalHint.textContent = 'Creates a Custom prebatch saved on this device.';
+    modalTitle.textContent = '+ Add recipe';
+    modalHint.textContent = 'Creates a Custom recipe saved on this device.';
     deleteInModal.style.display='none';
     deleteInModal.textContent='Delete';
     document.getElementById('pbName').value='';
@@ -1223,7 +1223,10 @@ function closeRecipeManager(){
 
 // Buttons
 
-document.getElementById('addPrebatchBtn').addEventListener('click', () => openModal('add'));
+document.getElementById('addPrebatchBtn').addEventListener('click', () => {
+  closeRecipeManager();
+  openModal('add');
+});
 document.getElementById('recipeManagerBtn')?.addEventListener('click', openRecipeManager);
 document.getElementById('cancelAddPrebatch').addEventListener('click', closeModal);
 modalBack.addEventListener('click', (e)=>{ if (e.target === modalBack) closeModal(); });
@@ -1232,10 +1235,6 @@ document.getElementById('closeRecipeManager')?.addEventListener('click', closeRe
 recipeManagerModal?.addEventListener('click', (e)=>{ if (e.target === recipeManagerModal) closeRecipeManager(); });
 recipeManagerSearch?.addEventListener('input', renderRecipeManager);
 recipeManagerDepartment?.addEventListener('change', renderRecipeManager);
-document.getElementById('managerAddPrebatch')?.addEventListener('click', () => {
-  closeRecipeManager();
-  openModal('add');
-});
 document.getElementById('managerImportJson')?.addEventListener('click', () => {
   const inp = document.getElementById('importSettingsFile');
   inp.value = '';

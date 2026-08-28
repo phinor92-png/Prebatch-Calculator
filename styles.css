@@ -146,12 +146,20 @@
   .sheetPreview{box-sizing:border-box; max-height:55vh; overflow:auto; white-space:pre-wrap; margin:14px 0 0; padding:12px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.24); color:var(--text); font:13px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;}
   .managerModal{max-width:980px;}
   .modalTitleRow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,173,95,.16);}
-  .managerSource{margin-top:4px;}
-  .managerSettings{display:grid; grid-template-columns:repeat(2,minmax(190px,220px)) auto auto; gap:10px; align-items:center; margin:14px 0 0;}
-  .managerSettings .btn{min-height:44px;}
-  .managerControls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.45fr) auto auto auto; gap:10px; align-items:center; margin:14px 0;}
+  .managerSection{margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08);}
+  .managerSection h3{margin:0 0 10px; font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:rgba(247,241,231,.72);}
+  .managerSource{margin:8px 0 0;}
+  .managerSettings{display:grid; grid-template-columns:repeat(2,minmax(190px,220px)); gap:10px; align-items:center;}
+  .managerControls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.45fr) auto; gap:10px; align-items:center; margin-bottom:12px;}
   .managerControls .tool{width:100%;}
   .managerTableWrap{max-height:60vh; overflow:auto; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.12);}
+  .managerDataTools{padding-bottom:0;}
+  .managerDataTools summary{cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; color:rgba(247,241,231,.72); font-size:12px; letter-spacing:.04em; text-transform:uppercase;}
+  .managerDataTools summary::-webkit-details-marker{display:none;}
+  .managerDataTools summary::after{content:"+"; color:var(--accent); font-size:16px; line-height:1;}
+  .managerDataTools[open] summary::after{content:"-";}
+  .managerDataActions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+  .managerDataActions .btn{min-height:40px;}
   .managerModal table{display:table; overflow:initial;}
   .managerActions{display:flex; justify-content:flex-end; gap:6px; flex-wrap:wrap;}
   .statusPill{display:inline-flex; align-items:center; white-space:nowrap; padding:3px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:rgba(247,241,231,.78); font-size:11px;}
@@ -209,8 +217,9 @@
     .modal #ingredientRows .tool{width:100% !important;}
     .modalTitleRow{flex-direction:column; align-items:stretch;}
     .managerSettings{grid-template-columns:1fr 1fr; gap:8px;}
-    .managerSettings .btn{width:100%; min-height:44px; padding:11px 10px;}
     .managerControls{grid-template-columns:1fr;}
+    .managerDataActions{display:grid; grid-template-columns:1fr; gap:8px;}
+    .managerDataActions .btn{width:100%;}
     .managerTableWrap{max-height:58vh; overflow:auto;}
     .managerModal #recipeManagerTable{display:block; min-width:0;}
     .managerModal thead{display:none;}

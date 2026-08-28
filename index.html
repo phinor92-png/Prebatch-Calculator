@@ -10,10 +10,11 @@
 <div id="toastWrap" class="toastWrap" aria-live="polite"></div>
 <div id="authGate" class="authGate">
   <div class="authCard">
-    <h2>Calculator Access</h2>
-    <p>Enter password to open the prebatch calculator.</p>
+    <div class="authKicker">Britannia Bar</div>
+    <h2>Pre-Batch Calculator <span class="versionPill">V2</span></h2>
+    <p>Enter password to open the production calculator.</p>
     <div class="authRow">
-      <input id="authPassword" class="tool" type="password" placeholder="Password" style="flex:1" />
+      <input id="authPassword" class="tool authInput" type="password" placeholder="Password" />
       <button id="authUnlock" class="btn primary">Unlock</button>
     </div>
     <div id="authError" class="authErr"></div>
@@ -27,7 +28,7 @@
       <p>Plan production, review the sheet, then copy or print from one place.</p>
     </div>
     <div class="headerSide">
-      <button class="btn secondary headerManagerBtn" id="recipeManagerBtn">Recipe manager</button>
+      <button class="btn secondary headerManagerBtn" id="recipeManagerBtn"><span class="desktopLabel">Recipe manager</span><span class="mobileLabel">Recipes</span></button>
       <div class="headerStats">
         <div><span id="countTotal">0</span><small>Recipes</small></div>
         <div><span id="countActive">0</span><small>Active</small></div>
@@ -133,38 +134,48 @@
       <div>
         <h2>Recipe manager</h2>
         <div id="recipeManagerStats" class="hint"></div>
-        <div id="dataSourceInfo" class="hint managerSource"></div>
       </div>
       <button class="iconBtn" id="closeRecipeManager">Close</button>
     </div>
-    <div class="managerSettings">
-      <label class="settingField"><span>Ingredient bottle</span><input id="ingredientBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
-      <label class="settingField"><span>Finished bottle</span><input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
-      <button class="btn secondary" id="addPrebatchBtn">+ Add recipe</button>
-      <button class="btn muted" id="reloadData">Reload JSON</button>
+    <div class="managerSection">
+      <h3>Settings</h3>
+      <div class="managerSettings">
+        <label class="settingField"><span>Ingredient bottle</span><input id="ingredientBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
+        <label class="settingField"><span>Finished bottle</span><input id="finishedBottleSize" class="tool inp mono" type="number" value="70" min="1" step="1" /><small>cl</small></label>
+      </div>
     </div>
-    <div class="managerControls">
-      <input id="recipeManagerSearch" class="tool" placeholder="Search recipes or ingredients" />
-      <select id="recipeManagerDepartment" class="tool">
-        <option value="">All departments</option>
-      </select>
-      <button class="btn secondary" id="managerAddPrebatch">+ Add prebatch</button>
-      <button class="btn" id="managerImportJson">Import JSON</button>
-      <button class="btn" id="managerExportJson">Export JSON</button>
-    </div>
-    <div class="managerTableWrap">
-      <table id="recipeManagerTable">
-        <thead>
-          <tr>
-            <th>Recipe</th>
-            <th>Department</th>
-            <th class="right">Ingredients</th>
-            <th>Status</th>
-            <th class="right">Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <details class="managerSection managerDataTools">
+      <summary>Data tools</summary>
+      <div id="dataSourceInfo" class="hint managerSource"></div>
+      <div class="managerDataActions">
+        <button class="btn muted" id="reloadData">Reload JSON</button>
+        <button class="btn" id="managerImportJson">Import JSON</button>
+        <button class="btn" id="managerExportJson">Export JSON</button>
+      </div>
+    </details>
+    <div class="managerSection">
+      <h3>Recipes</h3>
+      <div class="managerControls">
+        <input id="recipeManagerSearch" class="tool" placeholder="Search recipes or ingredients" />
+        <select id="recipeManagerDepartment" class="tool">
+          <option value="">All departments</option>
+        </select>
+        <button class="btn secondary" id="addPrebatchBtn">+ Add recipe</button>
+      </div>
+      <div class="managerTableWrap">
+        <table id="recipeManagerTable">
+          <thead>
+            <tr>
+              <th>Recipe</th>
+              <th>Department</th>
+              <th class="right">Ingredients</th>
+              <th>Status</th>
+              <th class="right">Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -172,8 +183,8 @@
 <!-- Add/Edit Prebatch Modal -->
 <div id="addPrebatchModal" class="modalBack">
   <div class="modal">
-    <h2 id="modalTitle">+ Add new prebatch</h2>
-    <div id="modalHint" class="hint">Custom prebatches are saved on this device/browser. JSON recipes can be edited via local overrides.</div>
+    <h2 id="modalTitle">+ Add recipe</h2>
+    <div id="modalHint" class="hint">Custom recipes are saved on this device/browser. JSON recipes can be edited via local overrides.</div>
 
     <div class="modalGrid">
       <div>

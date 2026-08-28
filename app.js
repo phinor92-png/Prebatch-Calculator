@@ -1019,6 +1019,7 @@ const pbDepartmentInput = document.getElementById('pbDepartment');
 
 let modalMode = 'add';
 let editingId = null;
+let returnToRecipeManagerAfterModal = false;
 
 function clearIngredientRows(){ ingredientRows.innerHTML=''; }
 
@@ -1042,8 +1043,8 @@ function openModal(mode, id=null){
   modalBack.style.display='block';
 
   if (mode === 'add'){
-    modalTitle.textContent = '+ Add new prebatch';
-    modalHint.textContent = 'Creates a Custom prebatch saved on this device.';
+    modalTitle.textContent = '+ Add recipe';
+    modalHint.textContent = 'Creates a Custom recipe saved on this device.';
     deleteInModal.style.display='none';
     deleteInModal.textContent='Delete';
     document.getElementById('pbName').value='';
@@ -1085,6 +1086,13 @@ function openModal(mode, id=null){
 }
 
 function closeModal(){ modalBack.style.display='none'; }
+
+function closeModalAndMaybeReturnToManager(){
+  const shouldReturn = returnToRecipeManagerAfterModal;
+  returnToRecipeManagerAfterModal = false;
+  closeModal();
+  if (shouldReturn) openRecipeManager();
+}
 
 function deleteCustomPrebatch(id){
   const pb = DATA.prebatches.find(x => x._id === id);
@@ -1197,6 +1205,7 @@ function renderRecipeManager(){
       const id = btn.dataset.managerEditId;
       const pbRaw = DATA.prebatches.find(x => x._id === id);
       if (!pbRaw) return;
+      returnToRecipeManagerAfterModal = true;
       closeRecipeManager();
       openModal(isCustomPrebatch(pbRaw) ? 'edit-custom' : 'edit-override', id);
     });
@@ -1223,19 +1232,19 @@ function closeRecipeManager(){
 
 // Buttons
 
-document.getElementById('addPrebatchBtn').addEventListener('click', () => openModal('add'));
+document.getElementById('addPrebatchBtn').addEventListener('click', () => {
+  returnToRecipeManagerAfterModal = true;
+  closeRecipeManager();
+  openModal('add');
+});
 document.getElementById('recipeManagerBtn')?.addEventListener('click', openRecipeManager);
-document.getElementById('cancelAddPrebatch').addEventListener('click', closeModal);
-modalBack.addEventListener('click', (e)=>{ if (e.target === modalBack) closeModal(); });
+document.getElementById('cancelAddPrebatch').addEventListener('click', closeModalAndMaybeReturnToManager);
+modalBack.addEventListener('click', (e)=>{ if (e.target === modalBack) closeModalAndMaybeReturnToManager(); });
 document.getElementById('addIngredientRow').addEventListener('click', () => addIngredientRow());
 document.getElementById('closeRecipeManager')?.addEventListener('click', closeRecipeManager);
 recipeManagerModal?.addEventListener('click', (e)=>{ if (e.target === recipeManagerModal) closeRecipeManager(); });
 recipeManagerSearch?.addEventListener('input', renderRecipeManager);
 recipeManagerDepartment?.addEventListener('change', renderRecipeManager);
-document.getElementById('managerAddPrebatch')?.addEventListener('click', () => {
-  closeRecipeManager();
-  openModal('add');
-});
 document.getElementById('managerImportJson')?.addEventListener('click', () => {
   const inp = document.getElementById('importSettingsFile');
   inp.value = '';
@@ -1247,12 +1256,12 @@ deleteInModal.addEventListener('click', () => {
   if (!editingId) return;
   if (modalMode === 'edit-custom'){
     deleteCustomPrebatch(editingId);
-    closeModal();
+    closeModalAndMaybeReturnToManager();
   } else if (modalMode === 'edit-override'){
     delete prebatchOverrides[editingId];
     savePrebatchOverrides();
     updateDepartmentOptions();
-    closeModal();
+    closeModalAndMaybeReturnToManager();
     renderPrebatches();
     renderIngredients();
   }
@@ -1292,7 +1301,7 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
     saveCustomPrebatches();
     updateDepartmentOptions();
     updateRecipeCount();
-    closeModal();
+    closeModalAndMaybeReturnToManager();
     renderPrebatches();
     renderIngredients();
     return;
@@ -1310,7 +1319,7 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
     pb.ingredients = ingredients;
     saveCustomPrebatches();
     updateDepartmentOptions();
-    closeModal();
+    closeModalAndMaybeReturnToManager();
     renderPrebatches();
     renderIngredients();
     return;
@@ -1322,7 +1331,7 @@ document.getElementById('savePrebatch').addEventListener('click', ()=>{
     prebatchOverrides[pb._id] = { name, sheet: department, ingredients };
     savePrebatchOverrides();
     updateDepartmentOptions();
-    closeModal();
+    closeModalAndMaybeReturnToManager();
     renderPrebatches();
     renderIngredients();
     return;

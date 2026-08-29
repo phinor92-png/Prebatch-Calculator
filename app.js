@@ -342,6 +342,7 @@ const sheetPreviewModal = document.getElementById('sheetPreviewModal');
 const sheetPreviewText = document.getElementById('sheetPreviewText');
 const sheetPreviewHint = document.getElementById('sheetPreviewHint');
 const sheetPreviewStats = document.getElementById('sheetPreviewStats');
+const mobileBarEl = document.querySelector('.mobileBar');
 const recipeManagerModal = document.getElementById('recipeManagerModal');
 const recipeManagerStats = document.getElementById('recipeManagerStats');
 const recipeManagerSearch = document.getElementById('recipeManagerSearch');
@@ -350,7 +351,10 @@ const recipeManagerTbody = document.querySelector('#recipeManagerTable tbody');
 
 function updateRecipeCount(){
   document.getElementById('countTotal').textContent = String(DATA.prebatches.length);
-  if (countActiveEl) countActiveEl.textContent = String(getActivePrebatchCount());
+  const activeCount = getActivePrebatchCount();
+  if (countActiveEl) countActiveEl.textContent = String(activeCount);
+  document.body.classList.toggle('hasActiveProduction', activeCount > 0);
+  if (mobileBarEl) mobileBarEl.classList.toggle('hasProduction', activeCount > 0);
 }
 
 function updateDataSourceInfo(){

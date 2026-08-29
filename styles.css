@@ -72,7 +72,7 @@
     .kpi .box{flex:1;}
     .quickBtns{justify-content:flex-start;}
     .noteInp{font-size:13px;}
-    .mobileBar{
+    .mobileBar.hasProduction{
       box-sizing:border-box;
       display:flex !important;
       position:fixed;
@@ -205,7 +205,8 @@
   @media (max-width: 700px){
     .desktopLabel{display:none;}
     .mobileLabel{display:inline;}
-    .wrap{margin:8px auto; padding:0 10px 96px;}
+    .wrap{margin:8px auto; padding:0 10px 24px;}
+    body.hasActiveProduction .wrap{padding-bottom:96px;}
     .appHeader{display:grid; grid-template-columns:1fr auto; align-items:start; gap:8px 10px; margin-bottom:10px; padding:10px 0 12px;}
     .appHeader p{display:none;}
     .appHeader h1{font-size:19px; line-height:1.1; margin:0;}
@@ -288,12 +289,20 @@
     #pbTable .quickBtns{display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:7px;}
     #pbTable .quickBtn{min-height:30px; padding:5px 4px; border-radius:999px; font-size:12px; font-weight:700;}
     .mobileBar{gap:10px; padding:10px 10px calc(10px + env(safe-area-inset-bottom)); background:rgba(13,12,11,.96); border-top:1px solid rgba(213,173,95,.22); box-shadow:0 -14px 30px rgba(0,0,0,.42); backdrop-filter:blur(14px);}
+    .mobileBar:not(.hasProduction){display:none !important;}
+    .mobileBar.hasProduction{display:flex !important;}
     .mobileBar .btn{min-height:42px; border-radius:8px; font-size:14px;}
     .mobileBar #mCopy{flex:1.28;}
     .mobileBar #mReset{flex:.72; background:rgba(213,173,95,.13); border-color:rgba(213,173,95,.18);}
     .previewStats{grid-template-columns:repeat(2,minmax(0,1fr));}
     .previewStats div:last-child{grid-column:1 / -1;}
     .advancedCol{display:none;}
+  }
+
+  @media (max-width: 340px){
+    .appHeader h1{font-size:18px;}
+    .appHeader .titleTail{display:none;}
+    .headerManagerBtn{padding:9px 11px;}
   }
 
   @media print{

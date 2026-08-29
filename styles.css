@@ -144,6 +144,26 @@
   .previewStats span{display:block; color:var(--text); font-weight:800; font-size:17px; line-height:1;}
   .previewStats small{display:block; margin-top:5px; color:var(--muted); font-size:11px;}
   .sheetPreview{box-sizing:border-box; max-height:55vh; overflow:auto; white-space:pre-wrap; margin:14px 0 0; padding:12px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.24); color:var(--text); font:13px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace;}
+  .sheetPreviewSource{display:none;}
+  .sheetPreviewLayout{margin-top:14px;}
+  .sheetDoc{box-sizing:border-box; padding:16px; border:1px solid rgba(213,173,95,.20); border-radius:8px; background:rgba(255,255,255,.035);}
+  .sheetDocHeader{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding-bottom:12px; border-bottom:1px solid rgba(213,173,95,.18);}
+  .sheetKicker{color:var(--accent); font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;}
+  .sheetDoc h3{margin:2px 0 0; font-size:20px;}
+  .sheetDate{text-align:right; color:var(--text); font-size:13px; font-weight:700;}
+  .sheetDate span{color:var(--muted); font-weight:500;}
+  .sheetDocStats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:12px;}
+  .sheetDocStats div{padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.16);}
+  .sheetDocStats span{display:block; font-size:18px; font-weight:800;}
+  .sheetDocStats small{display:block; margin-top:4px; color:var(--muted); font-size:11px;}
+  .sheetSection{margin-top:16px;}
+  .sheetSection h3{margin:0 0 8px; padding-bottom:6px; border-bottom:1px solid rgba(213,173,95,.18); color:var(--text); font-size:14px; text-transform:uppercase; letter-spacing:.04em;}
+  .sheetGroup{margin-top:10px;}
+  .sheetGroup h4{margin:0 0 6px; color:var(--accent); font-size:13px;}
+  .sheetDoc table{display:table; width:100%; border-collapse:collapse; overflow:initial;}
+  .sheetDoc th{position:static; background:rgba(255,255,255,.04); backdrop-filter:none; color:rgba(247,241,231,.76);}
+  .sheetDoc th,.sheetDoc td{padding:8px 9px; border-bottom:1px solid rgba(255,255,255,.09);}
+  .sheetMuted,.sheetEmpty{color:var(--muted);}
   .managerModal{max-width:980px;}
   .modalTitleRow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-bottom:10px; border-bottom:1px solid rgba(213,173,95,.16);}
   .managerSection{margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08);}
@@ -257,6 +277,26 @@
     .modal #ingredientRows .tool{width:100% !important;}
     .modalTitleRow{position:sticky; top:0; z-index:5; display:grid; grid-template-columns:1fr auto; align-items:start; margin:-14px -14px 12px; padding:14px; background:rgba(25,24,22,.98); border-bottom:1px solid rgba(213,173,95,.16);}
     .modalTitleRow .hint{margin-top:3px;}
+    .sheetDoc{padding:12px;}
+    .sheetDocHeader{display:block;}
+    .sheetDate{text-align:left; margin-top:8px;}
+    .sheetDocStats{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .sheetDoc table{display:block;}
+    .sheetDoc thead{display:none;}
+    .sheetDoc tbody{display:block;}
+    .sheetDoc tr{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 10px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.09);}
+    .sheetDoc td{display:block; border:0; padding:0;}
+    .sheetDoc td:nth-child(1){grid-column:1; font-weight:700;}
+    .sheetDoc td:nth-child(2){grid-column:1; color:var(--muted); text-align:left;}
+    .sheetDoc td:nth-child(3){grid-column:2; grid-row:1 / 3; align-self:center;}
+    .sheetDoc td:nth-child(4){grid-column:1 / -1; color:var(--muted); text-align:left;}
+    .sheetPrebatchTable td:nth-child(2)::before{content:"Batches "; color:rgba(247,241,231,.48);}
+    .sheetPrebatchTable td:nth-child(3)::after{content:" bottles"; display:block; color:var(--muted); font-size:10px; font-weight:500; text-transform:uppercase;}
+    .sheetIngredientTable td:nth-child(2)::before{content:"Total "; color:rgba(247,241,231,.48);}
+    .sheetIngredientTable td:nth-child(2)::after{content:" cl";}
+    .sheetIngredientTable td:nth-child(3){display:none;}
+    .sheetIngredientTable td:nth-child(4){grid-column:2; grid-row:1 / 3; color:var(--text); font-size:17px; font-weight:800;}
+    .sheetIngredientTable td:nth-child(4)::after{content:" bottles"; display:block; color:var(--muted); font-size:10px; font-weight:500; text-transform:uppercase;}
     .managerSettings{grid-template-columns:1fr 1fr; gap:8px;}
     .managerControls{grid-template-columns:1fr;}
     .managerDataActions{display:grid; grid-template-columns:1fr; gap:8px;}
@@ -319,6 +359,7 @@
   }
 
   @media print{
+    @page{size:A4; margin:12mm;}
     :root{--bg:#fff;--card:#fff;--text:#111;--line:#d0d0d0;--muted:#555;}
     body{background:#fff; color:#111; margin:0; font-family: "Segoe UI", Arial, sans-serif; font-size:12pt; line-height:1.35;}
     .wrap{max-width:none; margin:0; padding:8mm 10mm;}
@@ -354,4 +395,38 @@
     .kpi .box{border:1px solid #dcdcdc; background:#fff;}
     .kpi .val{font-size:13pt;}
     .kpi .lbl{font-size:9pt;}
+    body.printingProductionSheet{background:#fff !important; color:#111;}
+    body.printingProductionSheet #authGate,
+    body.printingProductionSheet .wrap,
+    body.printingProductionSheet .previewModal > h2,
+    body.printingProductionSheet #sheetPreviewHint,
+    body.printingProductionSheet #sheetPreviewStats,
+    body.printingProductionSheet .sheetPreviewSource,
+    body.printingProductionSheet .modalActions{display:none !important;}
+    body.printingProductionSheet #appRoot{display:block !important;}
+    body.printingProductionSheet #sheetPreviewModal{display:block !important; position:static !important; inset:auto !important; overflow:visible !important; background:#fff !important;}
+    body.printingProductionSheet .previewModal{width:auto !important; max-width:none !important; min-height:auto !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; box-shadow:none !important; background:#fff !important; color:#111 !important;}
+    body.printingProductionSheet .sheetPreviewLayout{display:block !important; margin:0 !important;}
+    body.printingProductionSheet .sheetDoc{padding:0 !important; border:0 !important; border-radius:0 !important; background:#fff !important; color:#111 !important;}
+    body.printingProductionSheet .sheetDocHeader{display:flex; padding-bottom:5mm; border-bottom:2px solid #111;}
+    body.printingProductionSheet .sheetKicker{color:#333; font-size:9pt;}
+    body.printingProductionSheet .sheetDoc h3{color:#111; font-size:18pt;}
+    body.printingProductionSheet .sheetDate{color:#111; font-size:10pt;}
+    body.printingProductionSheet .sheetDate span{color:#555;}
+    body.printingProductionSheet .sheetDocStats{grid-template-columns:repeat(4,1fr); gap:3mm; margin:5mm 0;}
+    body.printingProductionSheet .sheetDocStats div{border:1px solid #bbb; background:#fff; padding:3mm;}
+    body.printingProductionSheet .sheetDocStats span{color:#111; font-size:14pt;}
+    body.printingProductionSheet .sheetDocStats small{color:#555; font-size:8pt;}
+    body.printingProductionSheet .sheetSection{break-inside:avoid; margin-top:6mm;}
+    body.printingProductionSheet .sheetSection h3{color:#111; border-bottom:1px solid #aaa; font-size:10pt;}
+    body.printingProductionSheet .sheetGroup h4{color:#111; font-size:10pt;}
+    body.printingProductionSheet .sheetDoc table{display:table; width:100%; border-collapse:collapse;}
+    body.printingProductionSheet .sheetDoc thead{display:table-header-group;}
+    body.printingProductionSheet .sheetDoc tbody{display:table-row-group;}
+    body.printingProductionSheet .sheetDoc tr{display:table-row; break-inside:avoid;}
+    body.printingProductionSheet .sheetDoc th,
+    body.printingProductionSheet .sheetDoc td{display:table-cell; color:#111; border-bottom:1px solid #ddd; padding:2.2mm 2.5mm; font-size:9.5pt;}
+    body.printingProductionSheet .sheetDoc th{background:#f3f3f3; font-size:8pt;}
+    body.printingProductionSheet .sheetMuted,
+    body.printingProductionSheet .sheetEmpty{color:#777;}
   }

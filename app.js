@@ -340,6 +340,7 @@ const productionSessionInfoEl = document.getElementById('productionSessionInfo')
 const productionSummaryEl = document.getElementById('productionSummary');
 const sheetPreviewModal = document.getElementById('sheetPreviewModal');
 const sheetPreviewText = document.getElementById('sheetPreviewText');
+const sheetPreviewLayout = document.getElementById('sheetPreviewLayout');
 const sheetPreviewHint = document.getElementById('sheetPreviewHint');
 const sheetPreviewStats = document.getElementById('sheetPreviewStats');
 const mobileBarEl = document.querySelector('.mobileBar');
@@ -926,7 +927,7 @@ function renderIngredients(){
   document.getElementById('kpiIngBottles').textContent = ingTotalBottles.toFixed(2);
 }
 
-function getShoppingListText(){
+function buildProductionSheetModel(){
   const defaultIngBottleSize = clampNum(ingBottleSizeEl.value) || 70;
   const metrics = collectProductionMetrics({defaultIngBottleSize});
   const groupedPrebatches = new Map();
@@ -934,32 +935,118 @@ function getShoppingListText(){
   metrics.activeItems.forEach(item => {
     const {pb, batches, department, bottles, note} = item;
     if (!groupedPrebatches.has(department)) groupedPrebatches.set(department, []);
-    groupedPrebatches.get(department).push(`${pb.name}: ${batches.toFixed(2)} batches = ${bottles.toFixed(2)} bottles${note ? ` [Note: ${note}]` : ''}`);
+    groupedPrebatches.get(department).push({name: pb.name, batches, bottles, note});
   });
 
+  return {
+    generated: new Date(),
+    metrics,
+    departments: Array.from(groupedPrebatches.entries()).map(([department, items]) => ({department, items})),
+    ingredients: metrics.ingredientEntries.map(obj => ({
+      name: obj.displayName,
+      cl: obj.cl,
+      bottleSize: obj.usedSize,
+      bottles: obj.bottles
+    }))
+  };
+}
+
+function getShoppingListText(sheet = buildProductionSheetModel()){
+  const {departments, ingredients, generated} = sheet;
   const pbLines = [];
-  groupedPrebatches.forEach((lines, department) => {
+  departments.forEach(({department, items}) => {
     pbLines.push(department.toUpperCase());
-    lines.forEach(line => pbLines.push(`- ${line}`));
+    items.forEach(item => {
+      pbLines.push(`- ${item.name}: ${item.batches.toFixed(2)} batches = ${item.bottles.toFixed(2)} bottles${item.note ? ` [Note: ${item.note}]` : ''}`);
+    });
   });
   if (!pbLines.length) pbLines.push('(No active prebatches)');
 
-  const ingLines = metrics.ingredientEntries.map(obj => `${obj.displayName}: ${obj.cl.toFixed(1)} cl = ${obj.bottles.toFixed(2)} bottles`);
+  const ingLines = ingredients.map(obj => `${obj.name}: ${obj.cl.toFixed(1)} cl = ${obj.bottles.toFixed(2)} bottles`);
   if (!ingLines.length) ingLines.push('(No ingredients required)');
 
-  const generated = new Date().toLocaleString();
   return [
     'PREBATCH PRODUCTION SHEET',
-    `Generated: ${generated}`,
+    `Generated: ${generated.toLocaleString()}`,
     '',
-    'PREBATCHES TO MAKE',
+    'PREBATCHES MADE',
     'Department / prebatch: batches = finished bottles',
     ...pbLines,
     '',
-    'INGREDIENTS REQUIRED',
+    'INGREDIENTS TAKEN FROM STORAGE',
     'Ingredient: total cl = bottles',
     ...ingLines
   ].join('\n');
+}
+
+function renderProductionSheetLayout(sheet){
+  if (!sheetPreviewLayout) return;
+  const {metrics, departments, ingredients, generated} = sheet;
+  const dateLabel = generated.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
+  const timeLabel = generated.toLocaleTimeString(undefined, {hour:'2-digit', minute:'2-digit'});
+  const prebatchSections = departments.length
+    ? departments.map(({department, items}) => `
+        <div class="sheetGroup">
+          <h4>${escapeHtml(department)}</h4>
+          <table class="sheetPrebatchTable">
+            <thead><tr><th>Prebatch</th><th class="right">Batches</th><th class="right">Finished bottles</th><th>Prep note</th></tr></thead>
+            <tbody>
+              ${items.map(item => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td class="right mono">${item.batches.toFixed(2)}</td>
+                  <td class="right mono">${item.bottles.toFixed(2)}</td>
+                  <td>${item.note ? escapeHtml(item.note) : '<span class="sheetMuted">-</span>'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `).join('')
+    : '<div class="sheetEmpty">No active prebatches.</div>';
+
+  const ingredientRows = ingredients.length
+    ? ingredients.map(item => `
+        <tr>
+          <td>${escapeHtml(item.name)}</td>
+          <td class="right mono">${item.cl.toFixed(1)}</td>
+          <td class="right mono">${item.bottleSize.toFixed(0)}</td>
+          <td class="right mono">${item.bottles.toFixed(2)}</td>
+        </tr>
+      `).join('')
+    : '<tr><td colspan="4" class="sheetEmpty">No ingredients required.</td></tr>';
+
+  sheetPreviewLayout.innerHTML = `
+    <article class="sheetDoc">
+      <header class="sheetDocHeader">
+        <div>
+          <div class="sheetKicker">Britannia Bar</div>
+          <h3>Prebatch Production Sheet</h3>
+        </div>
+        <div class="sheetDate">${escapeHtml(dateLabel)}<br><span>${escapeHtml(timeLabel)}</span></div>
+      </header>
+
+      <div class="sheetDocStats">
+        <div><span>${metrics.activeItems.length}</span><small>Prebatches</small></div>
+        <div><span>${metrics.totalBatches.toFixed(2)}</span><small>Batches</small></div>
+        <div><span>${metrics.totalFinishedBottles.toFixed(2)}</span><small>Finished bottles</small></div>
+        <div><span>${metrics.totalIngredientBottles.toFixed(2)}</span><small>Ingredient bottles</small></div>
+      </div>
+
+      <section class="sheetSection">
+        <h3>Prebatches Made</h3>
+        ${prebatchSections}
+      </section>
+
+      <section class="sheetSection">
+        <h3>Ingredients Taken From Storage</h3>
+        <table class="sheetIngredientTable">
+          <thead><tr><th>Ingredient</th><th class="right">Total cl</th><th class="right">Bottle size</th><th class="right">Bottles</th></tr></thead>
+          <tbody>${ingredientRows}</tbody>
+        </table>
+      </section>
+    </article>
+  `;
 }
 
 async function copyTextToClipboard(txt){
@@ -983,9 +1070,11 @@ function updatePrintMeta(){
 
 function openSheetPreview(){
   if (!sheetPreviewModal || !sheetPreviewText) return;
-  const metrics = collectProductionMetrics();
+  const sheet = buildProductionSheetModel();
+  const metrics = sheet.metrics;
   const activeItems = metrics.activeItems;
-  sheetPreviewText.textContent = getShoppingListText();
+  sheetPreviewText.textContent = getShoppingListText(sheet);
+  renderProductionSheetLayout(sheet);
   if (sheetPreviewHint) {
     sheetPreviewHint.textContent = activeItems.length
       ? `Review ${activeItems.length} active prebatch${activeItems.length === 1 ? '' : 'es'} before copying or printing.`
@@ -1008,8 +1097,8 @@ function closeSheetPreview(){
 }
 
 function printProductionSheet(){
-  updatePrintMeta();
-  closeSheetPreview();
+  if (!sheetPreviewModal || getComputedStyle(sheetPreviewModal).display === 'none') openSheetPreview();
+  document.body.classList.add('printingProductionSheet');
   window.print();
 }
 
@@ -1393,8 +1482,9 @@ if (sheetPreviewModal) {
   sheetPreviewModal.addEventListener('click', (e)=>{ if (e.target === sheetPreviewModal) closeSheetPreview(); });
 }
 document.getElementById('closeSheetPreview').addEventListener('click', closeSheetPreview);
-document.getElementById('copyPreviewSheet').addEventListener('click', () => copyTextToClipboard(getShoppingListText()));
+document.getElementById('copyPreviewSheet').addEventListener('click', () => copyTextToClipboard(sheetPreviewText?.textContent || getShoppingListText()));
 document.getElementById('printPreviewSheet').addEventListener('click', printProductionSheet);
+window.addEventListener('afterprint', () => document.body.classList.remove('printingProductionSheet'));
 
 
 function getCustomPrebatchesForExport(){

@@ -1897,7 +1897,7 @@
       "bottlesPerBatchAt70cl": 6.428571428571429
     },
     {
-      "name": "Cafe Royale Prebatch",
+      "name": "Café Royale Prebatch",
       "sheet": "Prebatch Brasserie",
       "cocktailsPerBatch": 100,
       "ingredients": [
@@ -1908,7 +1908,7 @@
           "hideInFinalList": false
         },
         {
-          "name": "Kahlua Coffee Liqueu",
+          "name": "Kahlua Coffee Liqueur",
           "clPerBatch": 150,
           "bottleSizeCl": null,
           "hideInFinalList": false
@@ -1928,6 +1928,123 @@
       ],
       "totalClPerBatch": 1750,
       "bottlesPerBatchAt70cl": 25
+    },
+    {
+      "name": "White Sangria Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Dolin Blanc Vermouth",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Véronique Günther-Chéreau Muscadet",
+          "clPerBatch": 600,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin Melon",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        }
+      ],
+      "totalClPerBatch": 1400,
+      "bottlesPerBatchAt70cl": 20
+    },
+    {
+      "name": "Pink Sangria Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Cartron Crème de Peche de Vigne",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Sasha Lichine The Pale Rosé",
+          "clPerBatch": 700,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Citric Rhubarb Solution 3:10 (Inderøy Rhubarb base)",
+          "clPerBatch": 400,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        },
+        {
+          "name": "Monin Peche Blanche (White Peach)",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 300,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        }
+      ],
+      "totalClPerBatch": 1800,
+      "bottlesPerBatchAt70cl": 25.714285714285715
+    },
+    {
+      "name": "Red Sangria Prebatch",
+      "sheet": "Prebatch Brasserie",
+      "cocktailsPerBatch": 100,
+      "ingredients": [
+        {
+          "name": "Cartron Crème de Mure",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Moulin-A-Vent Chateau Des Jacques",
+          "clPerBatch": 450,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Loimer Verjus",
+          "clPerBatch": 150,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Monin Pomegranate",
+          "clPerBatch": 200,
+          "bottleSizeCl": null,
+          "hideInFinalList": false
+        },
+        {
+          "name": "Citric Acid Solution 3:10 (water base)",
+          "clPerBatch": 50,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        },
+        {
+          "name": "Cold Water",
+          "clPerBatch": 550,
+          "bottleSizeCl": null,
+          "hideInFinalList": true
+        }
+      ],
+      "totalClPerBatch": 1600,
+      "bottlesPerBatchAt70cl": 22.857142857142858
     },
     {
       "name": "Grande Champagne Prebatch",
